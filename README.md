@@ -1,1 +1,1 @@
-# calculadora com local sotrage
+# calculadora com local storage
