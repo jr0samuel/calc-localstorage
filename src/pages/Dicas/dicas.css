@@ -1,0 +1,10 @@
+p, img {
+    padding: 15px;
+}
+.taghr {
+    background-color: var(--color-cadetblue);
+    height: 5px;
+    width: 100%;
+    border: 0;
+    margin: 10px 0;
+}
