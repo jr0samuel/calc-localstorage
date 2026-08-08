@@ -4,6 +4,7 @@ import { handleHead } from "../../utils/handleHead.js";
 import { Btn, Botao } from "../../components/Btns.jsx";
 import { evaluate } from "mathjs";
 import { useBotao } from "../../components/useBotao.js";
+import Alerta from "../../components/Alertas.jsx";
 export default function Calc(){
     useEffect(() => {
         handleHead('/calc-icon-vetor-illustration.png', 'Calculadora');
@@ -25,12 +26,14 @@ export default function Calc(){
     const inputRef = useRef(null);
     const getInputValue = () => inputRef.current?.value ?? "";
     const setInputValue = value => { if (inputRef.current) inputRef.current.value = value; };
+    const [alerta, setAlerta] = useState(null);
+    const showAlerta = ( type, message ) => setAlerta( { type, message } );
     const calcular = () => {
         let el = inputRef.current;
         if (!el) return;
         let inputValueGet = getInputValue().trim();
         if (!inputValueGet) {
-            // alert('Digite uma expressão para calcular');
+            showAlerta('warning', 'Digite uma expressão para calcular');
             el.focus();
             return;
         }
@@ -38,11 +41,11 @@ export default function Calc(){
             let resultado = evaluate(inputValueGet);
             setInputValue(`${inputValueGet} = ${resultado}`);
             setHistorico(prev => [ { conta: `${inputValueGet} = ${resultado}` }, ...prev ] );
-            // alert('Conta salva');
+            showAlerta('success', 'Cálculo salvo!');
             el.focus();
         } catch (error) {
             console.error(error);
-            // alert('Conta inválida');
+            showAlerta('error', 'Cálculo inválido!');
             el.focus();
         }
     };
@@ -51,12 +54,12 @@ export default function Calc(){
         if (!el) return;
         let inputValueGet = getInputValue().trim();
         if (!inputValueGet) {
-            // alert('Digite algo para salvar.');
+            showAlerta('warning', 'Digite algo para salvar')
             el.focus();
             return;
         }
         setHistorico(prev => [ { conta: inputValueGet }, ...prev ] );
-        // alert('Salvo');
+        showAlerta('success', 'Salvo com sucesso!');
         el.focus();
     };
     function insertAtCursor (text) {
@@ -123,11 +126,18 @@ export default function Calc(){
     };
     const excluir = (index) => {
         setHistorico(prev => prev.filter((_, i) => i !== index));
-        // alert('Excluído');
+        showAlerta('success', 'Excluído!');
     };
     return (
         <section>
             <h1>Calculadora</h1>
+            {alerta && (
+                <Alerta
+                    type={alerta.type}
+                    message={alerta.message}
+                    onClose={() => setAlerta(null)}
+                />
+            )}
             <div>
                 <input ref={inputRef} id="calcInput" name="inputCalc" inputMode="none" placeholder="Digite a expressão matemática"
                   className="tab w-full h-10 text-center text-(--color-grey1) border-2 border-(--color-grey1)" />
@@ -188,12 +198,12 @@ export default function Calc(){
                     <Btn onClick={() => insertAtCursor('.')}>.</Btn>
                 </div>
                 <div className="grid grid-cols-1">
-                    <Btn onClick={() => calcular()}>Calcular</Btn>
+                    <Btn onClick={() => { calcular(); }}>Calcular</Btn>
                 </div>
                 <div className="max-[400px]:grid max-[400px]:grid-cols-1 min-[401px]:grid min-[401px]:grid-cols-2">
                     <div className="flex flex-row justify-between">
                     <Btn onClick={() => {inputRef.current.value=''; inputRef.current.focus();}}>Limpar</Btn>
-                    <Btn onClick={() => salvar()}>Salvar</Btn>
+                    <Btn onClick={() => { salvar(); }}>Salvar</Btn>
                     </div>
                     <div className="flex flex-row justify-between">
                     <Btn onClick={() => backspace()}>BackSpace</Btn>
