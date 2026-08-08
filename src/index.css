@@ -34,3 +34,6 @@ h1 {
     margin-bottom: 10px;
     cursor: default;
 }
+.click {
+    background-color: var(--color-red);
+}

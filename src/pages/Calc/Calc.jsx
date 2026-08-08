@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from "react";
 import "./calc.css";
+import { useEffect, useState, useRef } from "react";
 import { handleHead } from "../../utils/handleHead.js";
-import { Btn } from "../../components/Btns.jsx";
+import { Btn, Botao } from "../../components/Btns.jsx";
 import { evaluate } from "mathjs";
+import { useBotao } from "../../components/useBotao.js";
 export default function Calc(){
     useEffect(() => {
         handleHead('/calc-icon-vetor-illustration.png', 'Calculadora');
@@ -29,7 +30,7 @@ export default function Calc(){
         if (!el) return;
         let inputValueGet = getInputValue().trim();
         if (!inputValueGet) {
-            alert('Digite uma expressão para calcular');
+            // alert('Digite uma expressão para calcular');
             el.focus();
             return;
         }
@@ -37,11 +38,11 @@ export default function Calc(){
             let resultado = evaluate(inputValueGet);
             setInputValue(`${inputValueGet} = ${resultado}`);
             setHistorico(prev => [ { conta: `${inputValueGet} = ${resultado}` }, ...prev ] );
-            alert('Conta salva');
+            // alert('Conta salva');
             el.focus();
         } catch (error) {
             console.error(error);
-            alert('Conta inválida');
+            // alert('Conta inválida');
             el.focus();
         }
     };
@@ -50,12 +51,12 @@ export default function Calc(){
         if (!el) return;
         let inputValueGet = getInputValue().trim();
         if (!inputValueGet) {
-            alert('Nada para salvar. Digite uma expressão para calcular.');
+            // alert('Digite algo para salvar.');
             el.focus();
             return;
         }
         setHistorico(prev => [ { conta: inputValueGet }, ...prev ] );
-        alert('Salvo');
+        // alert('Salvo');
         el.focus();
     };
     function insertAtCursor (text) {
@@ -120,10 +121,9 @@ export default function Calc(){
         el.selectionStart = el.selectionEnd = startPos;
         el.focus();
     };
-    const excluir = (index, evento) => {
+    const excluir = (index) => {
         setHistorico(prev => prev.filter((_, i) => i !== index));
-        evento.currentTarget.blur();
-        alert('Excluído');
+        // alert('Excluído');
     };
     return (
         <section>
@@ -207,24 +207,20 @@ export default function Calc(){
             </div>
             <div className={`tabela ${historico.length === 1 ? "max-h-13" : "max-h-32"} border-2 border-(--color-ambar)`}>
                 {historico.map((item, index) => (
-                    <div key={`${item.conta}-${index}`} className="elemento border-b-2 border-(--color-ambar) flex flex-row">
-                        <div className="conta w-4/5 text-(--color-yellowgreen) border-r-4 border-(--color-ambar) p-3 break-all">
-                            <div onClick={() => { inputRef.current.value = item.resultado !== null && item.resultado !== undefined
-                            ? `${item.conta} = ${item.resultado}` : item.conta } }
-                            tabIndex='0' className='resultado focus:outline-1 focus:outline-(--color-tan) px-1.5' >
-                                {item.resultado !== null && item.resultado !== undefined
-                                  ? `${item.conta} = ${item.resultado}`
-                                  : item.conta}
+                    <div key={`${item.conta}-${index}`} className="elemento border-b-2 border-(--color-ambar) flex flex-row w-full">
+                        <div className="conta min-w-[60%] flex-1 text-(--color-yellowgreen) border-r-4 border-(--color-ambar) p-3 flex items-center overflow-hidden">
+                            <div tabIndex='0' className='resultado focus:outline-1 focus:outline-(--color-tan) px-1.5 w-full break-all min-w-0'>
+                                <span onClick={() => { inputRef.current.value = item.resultado !== null && item.resultado !== undefined
+                                ? `${item.conta} = ${item.resultado}` : item.conta } }
+                                tabIndex='0' className='resultado focus:outline-1 focus:outline-(--color-tan) px-1'>
+                                  {item.resultado !== null && item.resultado !== undefined
+                                    ? `${item.conta} = ${item.resultado}`
+                                    : item.conta}
+                                </span>
                             </div>
                         </div>
-                        <div className="lixeira w-1/5 text-center p-3 flex justify-center items-center align-middle">
-                            <button onClick={(evento) => excluir(index, evento)} aria-label={`Excluir ${item.conta} do histórico`}
-                              className="lixo border-(--color-ambar) p-3 bg-(--color-grey1) hover:bg-(--color-red) duration-400 ease-in-out focus:bg-(--color-red) outline-0 w-12.5 h-12.5 rounded-[50%] flex justify-center items-center">
-                                <svg className='text-(--color-dark1)' xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 16 16">
-                                  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
-                                  <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
-                                </svg>
-                            </button>
+                        <div className="lixeira shrink-0 p-3 flex justify-center items-center">
+                            <Botao onClick={() => excluir(index)} aria-label={`Excluir ${item.conta} do histórico`} />
                         </div>
                     </div>
                 ))}

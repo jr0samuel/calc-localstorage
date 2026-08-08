@@ -13,7 +13,7 @@ export default function Dicas(){
                     <span className="after:absolute after:content-[''] after:block after:h-1 after:w-full after:bg-(--color-blue) after:-bottom-4" />
                 </div>
                 <hr className="taghr opacity-0!" />
-                <div className="overflow-x-scroll scrollbar-none max-h-112.5">
+                <div className="overflow-x-scroll scrollbar-none max-h-150">
                     <p>
                         Para fazer potenciação, faça 2^2. E a potência de potência é (5^3)^0, que é igual a 1, é diferente de 5^3^0, que é igual a 5.
                         <br /><br />
