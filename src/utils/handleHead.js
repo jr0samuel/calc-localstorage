@@ -6,3 +6,4 @@ export function handleHead(caminho, titulo){
         title.textContent = titulo;
     };
 };
+export const keyLS = '@calc-historico/contas-salvas';

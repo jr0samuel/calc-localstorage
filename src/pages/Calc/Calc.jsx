@@ -1,22 +1,21 @@
 import "./calc.css";
 import { useEffect, useState, useRef } from "react";
-import { handleHead } from "../../utils/handleHead.js";
+import { handleHead, keyLS } from "../../utils/handleHead.js";
 import { Btn, Botao } from "../../components/Btns.jsx";
-import { evaluate } from "mathjs";
 import { useBotao } from "../../components/useBotao.js";
+import { insertAtCursor, comeco, fim, setaEsq, setaDir, backspace } from "../../functions/cursorInput.js";
+import { calcular, salvar, excluir } from "../../functions/calc.js";
 import Alerta from "../../components/Alertas.jsx";
 export default function Calc(){
     useEffect(() => {
         handleHead('/calc-icon-vetor-illustration.png', 'Calculadora');
     }, []);
-    const keyLS = '@calc-historico/contas-salvas';
     const [historico, setHistorico] = useState(() => {
         try {
             const savedHistorico = localStorage.getItem(keyLS);
             const parsedHistorico = savedHistorico ? JSON.parse(savedHistorico) : [];
             return Array.isArray(parsedHistorico) ? parsedHistorico : [];
-        } catch (error) {
-            console.error("Erro ao carregar o histórico", error);
+        } catch {
             return [];
         }
     });
@@ -28,106 +27,6 @@ export default function Calc(){
     const setInputValue = value => { if (inputRef.current) inputRef.current.value = value; };
     const [alerta, setAlerta] = useState(null);
     const showAlerta = ( type, message ) => setAlerta( { type, message } );
-    const calcular = () => {
-        let el = inputRef.current;
-        if (!el) return;
-        let inputValueGet = getInputValue().trim();
-        if (!inputValueGet) {
-            showAlerta('warning', 'Digite uma expressão para calcular');
-            el.focus();
-            return;
-        }
-        try {
-            let resultado = evaluate(inputValueGet);
-            setInputValue(`${inputValueGet} = ${resultado}`);
-            setHistorico(prev => [ { conta: `${inputValueGet} = ${resultado}` }, ...prev ] );
-            showAlerta('success', 'Cálculo salvo!');
-            el.focus();
-        } catch (error) {
-            console.error(error);
-            showAlerta('error', 'Cálculo inválido!');
-            el.focus();
-        }
-    };
-    const salvar = () => {
-        let el = inputRef.current;
-        if (!el) return;
-        let inputValueGet = getInputValue().trim();
-        if (!inputValueGet) {
-            showAlerta('warning', 'Digite algo para salvar')
-            el.focus();
-            return;
-        }
-        setHistorico(prev => [ { conta: inputValueGet }, ...prev ] );
-        showAlerta('success', 'Salvo com sucesso!');
-        el.focus();
-    };
-    function insertAtCursor (text) {
-        let el = inputRef.current;
-        if (!el) return;
-        let inputValue = el.value;
-        let startPos = el.selectionStart ?? 0;
-        let endPos = el.selectionEnd ?? 0;
-        let newValue = inputValue.substring(0, startPos) + text + inputValue.substring(endPos);
-        el.value = newValue;
-        let pos = startPos + text.length;
-        el.selectionStart = pos;
-        el.selectionEnd = pos;
-        el.focus();
-    };
-    function comeco () {
-        let el = inputRef.current;
-        if (!el) return;
-        el.selectionStart = 0;
-        el.selectionEnd = 0;
-        el.focus();
-    };
-    function fim () {
-        let el = inputRef.current;
-        if (!el) return;
-        let len = el.value.length;
-        el.selectionStart = len;
-        el.selectionEnd = len;
-        el.focus();
-    };
-    function setaEsq () {
-        let el = inputRef.current;
-        if (!el) return;
-        if (el.selectionStart > 0) {
-            el.selectionStart--;
-            el.selectionEnd = el.selectionStart;
-        }
-        el.focus();
-    };
-    function setaDir () {
-        let el = inputRef.current;
-        if (!el) return;
-        if ((el.selectionEnd ?? 0) < el.value.length) {
-            el.selectionStart = (el.selectionEnd ?? 0) + 1;
-            el.selectionEnd = el.selectionStart;
-        }
-        el.focus();
-    };
-    const backspace = () => {
-        let el = inputRef.current;
-        if (!el) return;
-        let inputValue = el.value;
-        let startPos = el.selectionStart ?? 0;
-        let endPos = el.selectionEnd ?? 0;
-        if (startPos === endPos && startPos > 0) {
-            inputValue = inputValue.slice(0, startPos - 1) + inputValue.slice(endPos);
-            startPos -= 1;
-        } else if (startPos !== endPos) {
-            inputValue = inputValue.slice(0, startPos) + inputValue.slice(endPos);
-        }
-        el.value = inputValue;
-        el.selectionStart = el.selectionEnd = startPos;
-        el.focus();
-    };
-    const excluir = (index) => {
-        setHistorico(prev => prev.filter((_, i) => i !== index));
-        showAlerta('success', 'Excluído!');
-    };
     return (
         <section>
             <h1>Calculadora</h1>
@@ -150,63 +49,63 @@ export default function Calc(){
             <div id="btns">
                 <div className="max-[400px]:grid max-[400px]:grid-cols-1 min-[401px]:grid min-[401px]:grid-cols-3">
                     <div>
-                    <Btn onClick={() => comeco()}>Começo</Btn>
+                    <Btn onClick={() => comeco(inputRef)}>Começo</Btn>
                     </div>
                     <div className="flex flex-row justify-between">
-                    <Btn onClick={() => setaEsq()}>⟵</Btn>
-                    <Btn onClick={() => setaDir()}>⟶</Btn>
+                    <Btn onClick={() => setaEsq(inputRef)}>⟵</Btn>
+                    <Btn onClick={() => setaDir(inputRef)}>⟶</Btn>
                     </div>
                     <div>
-                    <Btn onClick={() => fim()}>Fim</Btn>
+                    <Btn onClick={() => fim(inputRef)}>Fim</Btn>
                     </div>
                 </div>
                 <div className="grid grid-cols-1">
-                    <Btn onClick={() => insertAtCursor(' ')}>Espaço</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, ' ')}>Espaço</Btn>
                 </div>
                 <div className="grid grid-cols-5">
-                    <Btn onClick={() => insertAtCursor(' + ')}>+</Btn>
-                    <Btn onClick={() => insertAtCursor(' - ')}>−</Btn>
-                    <Btn onClick={() => insertAtCursor(' * ')}>×</Btn>
-                    <Btn onClick={() => insertAtCursor(' / ')}>÷</Btn>
-                    <Btn onClick={() => insertAtCursor('^')}>^</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, ' + ')}>+</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, ' - ')}>−</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, ' * ')}>×</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, ' / ')}>÷</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, '^')}>^</Btn>
                 </div>
                 <div className="grid grid-cols-6">
-                    <Btn onClick={() => insertAtCursor('(')}>(</Btn>
-                    <Btn onClick={() => insertAtCursor(')')}>)</Btn>
-                    <Btn onClick={() => insertAtCursor('[')}>[</Btn>
-                    <Btn onClick={() => insertAtCursor(']')}>]</Btn>
-                    <Btn onClick={() => insertAtCursor('{')}>{"\u007B"}</Btn>
-                    <Btn onClick={() => insertAtCursor('}')}>{"\u007D"}</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, '(')}>(</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, ')')}>)</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, '[')}>[</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, ']')}>]</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, '{')}>{"\u007B"}</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, '}')}>{"\u007D"}</Btn>
                 </div>
                 <div className="grid grid-cols-3">
-                    <Btn onClick={() => insertAtCursor('1')}>1</Btn>
-                    <Btn onClick={() => insertAtCursor('2')}>2</Btn>
-                    <Btn onClick={() => insertAtCursor('3')}>3</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, '1')}>1</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, '2')}>2</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, '3')}>3</Btn>
                 </div>
                 <div className="grid grid-cols-3">
-                    <Btn onClick={() => insertAtCursor('4')}>4</Btn>
-                    <Btn onClick={() => insertAtCursor('5')}>5</Btn>
-                    <Btn onClick={() => insertAtCursor('6')}>6</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, '4')}>4</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, '5')}>5</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, '6')}>6</Btn>
                 </div>
                 <div className="grid grid-cols-3">
-                    <Btn onClick={() => insertAtCursor('7')}>7</Btn>
-                    <Btn onClick={() => insertAtCursor('8')}>8</Btn>
-                    <Btn onClick={() => insertAtCursor('9')}>9</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, '7')}>7</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, '8')}>8</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, '9')}>9</Btn>
                 </div>
                 <div className="grid grid-cols-2">
-                    <Btn onClick={() => insertAtCursor('0')}>0</Btn>
-                    <Btn onClick={() => insertAtCursor('.')}>.</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, '0')}>0</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, '.')}>.</Btn>
                 </div>
                 <div className="grid grid-cols-1">
-                    <Btn onClick={() => { calcular(); }}>Calcular</Btn>
+                    <Btn onClick={() => { calcular( inputRef, getInputValue, setInputValue, setHistorico, showAlerta ); }}>Calcular</Btn>
                 </div>
                 <div className="max-[400px]:grid max-[400px]:grid-cols-1 min-[401px]:grid min-[401px]:grid-cols-2">
                     <div className="flex flex-row justify-between">
                     <Btn onClick={() => {inputRef.current.value=''; inputRef.current.focus();}}>Limpar</Btn>
-                    <Btn onClick={() => { salvar(); }}>Salvar</Btn>
+                    <Btn onClick={() => { salvar( inputRef, getInputValue, setHistorico, showAlerta ); }}>Salvar</Btn>
                     </div>
                     <div className="flex flex-row justify-between">
-                    <Btn onClick={() => backspace()}>BackSpace</Btn>
+                    <Btn onClick={() => backspace(inputRef)}>BackSpace</Btn>
                     </div>
                 </div>
             </div>
@@ -222,7 +121,7 @@ export default function Calc(){
                             <div tabIndex='0' className='resultado focus:outline-1 focus:outline-(--color-tan) px-1.5 w-full break-all min-w-0'>
                                 <span onClick={() => { inputRef.current.value = item.resultado !== null && item.resultado !== undefined
                                 ? `${item.conta} = ${item.resultado}` : item.conta } }
-                                tabIndex='0' className='resultado focus:outline-1 focus:outline-(--color-tan) px-1'>
+                                tabIndex='0' className='resultado calculo focus:outline-1 focus:outline-(--color-tan) px-1'>
                                   {item.resultado !== null && item.resultado !== undefined
                                     ? `${item.conta} = ${item.resultado}`
                                     : item.conta}
@@ -230,7 +129,7 @@ export default function Calc(){
                             </div>
                         </div>
                         <div className="lixeira shrink-0 p-3 flex justify-center items-center">
-                            <Botao onClick={() => excluir(index)} aria-label={`Excluir ${item.conta} do histórico`} />
+                            <Botao onClick={() => excluir( index, setHistorico, showAlerta )} aria-label={`Excluir ${item.conta} do histórico`} />
                         </div>
                     </div>
                 ))}
