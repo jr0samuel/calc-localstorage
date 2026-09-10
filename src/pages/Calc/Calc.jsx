@@ -1,11 +1,11 @@
 import "./calc.css";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
 import { handleHead, keyLS } from "../../utils/handleHead.js";
 import { Btn, Botao } from "../../components/Btns.jsx";
-import { useBotao } from "../../components/useBotao.js";
 import { insertAtCursor, comeco, fim, setaEsq, setaDir, backspace } from "../../functions/cursorInput.js";
 import { calcular, salvar, excluir } from "../../functions/calc.js";
 import Alerta from "../../components/Alertas.jsx";
+import { CalcContext } from "../../context/CalcContext.jsx";
 export default function Calc(){
     useEffect(() => {
         handleHead('/calc-icon-vetor-illustration.png', 'Calculadora');
@@ -22,6 +22,7 @@ export default function Calc(){
     useEffect(() => {
         localStorage.setItem(keyLS, JSON.stringify(historico));
     }, [historico]);
+    const {valor, setValor} = useContext(CalcContext);
     const inputRef = useRef(null);
     const getInputValue = () => inputRef.current?.value ?? "";
     const setInputValue = value => { if (inputRef.current) inputRef.current.value = value; };
@@ -38,7 +39,8 @@ export default function Calc(){
                 />
             )}
             <div>
-                <input ref={inputRef} id="calcInput" name="inputCalc" inputMode="none" placeholder="Digite a expressão matemática"
+                <input ref={inputRef} value={valor} onChange={e => setValor(e.target.value)}
+                  id="calcInput" name="inputCalc" inputMode="none" placeholder="Digite a expressão matemática"
                   className="tab w-full h-10 text-center text-(--color-grey1) border-2 border-(--color-grey1)" />
             </div>
             <div>
@@ -119,12 +121,15 @@ export default function Calc(){
                     <div key={`${item.conta}-${index}`} className="elemento border-b-2 border-(--color-ambar) flex flex-row w-full">
                         <div className="conta min-w-[60%] flex-1 text-(--color-yellowgreen) border-r-4 border-(--color-ambar) p-3 flex items-center overflow-hidden">
                             <div tabIndex='0' className='resultado focus:outline-1 focus:outline-(--color-tan) px-1.5 w-full break-all min-w-0'>
-                                <span onClick={() => { inputRef.current.value = item.resultado !== null && item.resultado !== undefined
-                                ? `${item.conta} = ${item.resultado}` : item.conta } }
-                                tabIndex='0' className='resultado calculo focus:outline-1 focus:outline-(--color-tan) px-1'>
-                                  {item.resultado !== null && item.resultado !== undefined
-                                    ? `${item.conta} = ${item.resultado}`
-                                    : item.conta}
+                                <span onClick={() => { const texto = item.resultado !== null && item.resultado !== undefined
+                                    ? `${item.conta} = ${item.resultado}` : item.conta;
+                                    setValor(texto);
+                                  } }
+                                  tabIndex='0' className='resultado calculo focus:outline-1 focus:outline-(--color-tan) px-1'
+                                >
+                                    {item.resultado !== null && item.resultado !== undefined
+                                      ? `${item.conta} = ${item.resultado}`
+                                      : item.conta}
                                 </span>
                             </div>
                         </div>
