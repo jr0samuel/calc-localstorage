@@ -1,10 +1,20 @@
+import { useEffect, useRef, useState } from "react";
 import { useBotao } from "./useBotao.js";
 
 export const Btn = ( { children, onClick, className } ) => {
+    const [ clicked, setClicked ] = useState(false);
+    const timeoutRef = useRef(null);
+    useEffect(() => () => clearTimeout(timeoutRef.current), []);
+    const handleClik = e => {
+        setClicked(true);
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = setTimeout(() => setClicked(false), 150);
+        onClick?.(e);
+    };
     return (
-        <button className={`${className}
+        <button className={`${className} ${clicked ? "btn clik" : "btn"}
           w-full h-10 text-center text-(--color-dark1) bg-(--color-grey1) border border-(--color-black2) rounded-md hover:bg-(--color-grey2)`}
-          onClick={onClick} tabIndex="-1">
+          onClick={handleClik} tabIndex="-1" onMouseDown={e => e.preventDefault()}>
             {children}
         </button>
     );

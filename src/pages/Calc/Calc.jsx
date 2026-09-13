@@ -7,27 +7,32 @@ import { calcular, salvar, excluir } from "../../functions/calc.js";
 import Alerta from "../../components/Alertas.jsx";
 import { CalcContext } from "../../context/CalcContext.jsx";
 export default function Calc(){
-    useEffect(() => {
-        handleHead('/calc-icon-vetor-illustration.png', 'Calculadora');
-    }, []);
+    useEffect(() => { handleHead('/calc-icon-vetor-illustration.png', 'Calculadora'); }, []);
     const [historico, setHistorico] = useState(() => {
         try {
             const savedHistorico = localStorage.getItem(keyLS);
             const parsedHistorico = savedHistorico ? JSON.parse(savedHistorico) : [];
             return Array.isArray(parsedHistorico) ? parsedHistorico : [];
-        } catch {
-            return [];
-        }
+        } catch { return []; }
     });
-    useEffect(() => {
-        localStorage.setItem(keyLS, JSON.stringify(historico));
-    }, [historico]);
+    useEffect(() => { localStorage.setItem(keyLS, JSON.stringify(historico)); }, [historico]);
     const {valor, setValor} = useContext(CalcContext);
     const inputRef = useRef(null);
-    const getInputValue = () => inputRef.current?.value ?? "";
-    const setInputValue = value => { if (inputRef.current) inputRef.current.value = value; };
     const [alerta, setAlerta] = useState(null);
     const showAlerta = ( type, message ) => setAlerta( { type, message } );
+    const valorRef = useRef(valor);
+    useEffect(() => { valorRef.current = valor; }, [valor]);
+    useEffect(() => {
+        const handleKeyDown = e => {
+            const foco = document.activeElement === inputRef.current || document.activeElement === document.body;
+            if (!foco || e.key !== "Enter") return;
+            e.preventDefault();
+            if (e.ctrlKey || e.metaKey) salvar( inputRef, valor, setHistorico, showAlerta );
+            else calcular( inputRef, valor, setValor, setHistorico, showAlerta );
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [setValor, setHistorico, showAlerta]);
     return (
         <section>
             <h1>Calculadora</h1>
@@ -62,52 +67,52 @@ export default function Calc(){
                     </div>
                 </div>
                 <div className="grid grid-cols-1">
-                    <Btn onClick={() => insertAtCursor(inputRef, ' ')}>Espaço</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, valor, setValor, ' ')}>Espaço</Btn>
                 </div>
                 <div className="grid grid-cols-5">
-                    <Btn onClick={() => insertAtCursor(inputRef, ' + ')}>+</Btn>
-                    <Btn onClick={() => insertAtCursor(inputRef, ' - ')}>−</Btn>
-                    <Btn onClick={() => insertAtCursor(inputRef, ' * ')}>×</Btn>
-                    <Btn onClick={() => insertAtCursor(inputRef, ' / ')}>÷</Btn>
-                    <Btn onClick={() => insertAtCursor(inputRef, '^')}>^</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, valor, setValor, ' + ')}>+</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, valor, setValor, ' - ')}>−</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, valor, setValor, ' * ')}>×</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, valor, setValor, ' / ')}>÷</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, valor, setValor, '^')}>^</Btn>
                 </div>
                 <div className="grid grid-cols-6">
-                    <Btn onClick={() => insertAtCursor(inputRef, '(')}>(</Btn>
-                    <Btn onClick={() => insertAtCursor(inputRef, ')')}>)</Btn>
-                    <Btn onClick={() => insertAtCursor(inputRef, '[')}>[</Btn>
-                    <Btn onClick={() => insertAtCursor(inputRef, ']')}>]</Btn>
-                    <Btn onClick={() => insertAtCursor(inputRef, '{')}>{"\u007B"}</Btn>
-                    <Btn onClick={() => insertAtCursor(inputRef, '}')}>{"\u007D"}</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, valor, setValor, '(')}>(</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, valor, setValor, ')')}>)</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, valor, setValor, '[')}>[</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, valor, setValor, ']')}>]</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, valor, setValor, '{')}>{"\u007B"}</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, valor, setValor, '}')}>{"\u007D"}</Btn>
                 </div>
                 <div className="grid grid-cols-3">
-                    <Btn onClick={() => insertAtCursor(inputRef, '1')}>1</Btn>
-                    <Btn onClick={() => insertAtCursor(inputRef, '2')}>2</Btn>
-                    <Btn onClick={() => insertAtCursor(inputRef, '3')}>3</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, valor, setValor, '1')}>1</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, valor, setValor, '2')}>2</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, valor, setValor, '3')}>3</Btn>
                 </div>
                 <div className="grid grid-cols-3">
-                    <Btn onClick={() => insertAtCursor(inputRef, '4')}>4</Btn>
-                    <Btn onClick={() => insertAtCursor(inputRef, '5')}>5</Btn>
-                    <Btn onClick={() => insertAtCursor(inputRef, '6')}>6</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, valor, setValor, '4')}>4</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, valor, setValor, '5')}>5</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, valor, setValor, '6')}>6</Btn>
                 </div>
                 <div className="grid grid-cols-3">
-                    <Btn onClick={() => insertAtCursor(inputRef, '7')}>7</Btn>
-                    <Btn onClick={() => insertAtCursor(inputRef, '8')}>8</Btn>
-                    <Btn onClick={() => insertAtCursor(inputRef, '9')}>9</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, valor, setValor, '7')}>7</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, valor, setValor, '8')}>8</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, valor, setValor, '9')}>9</Btn>
                 </div>
                 <div className="grid grid-cols-2">
-                    <Btn onClick={() => insertAtCursor(inputRef, '0')}>0</Btn>
-                    <Btn onClick={() => insertAtCursor(inputRef, '.')}>.</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, valor, setValor, '0')}>0</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, valor, setValor, '.')}>.</Btn>
                 </div>
                 <div className="grid grid-cols-1">
-                    <Btn onClick={() => { calcular( inputRef, getInputValue, setInputValue, setHistorico, showAlerta ); }}>Calcular</Btn>
+                    <Btn onClick={() => { calcular( inputRef, valor, setValor, setHistorico, showAlerta ); }}>Calcular</Btn>
                 </div>
                 <div className="max-[400px]:grid max-[400px]:grid-cols-1 min-[401px]:grid min-[401px]:grid-cols-2">
                     <div className="flex flex-row justify-between">
-                    <Btn onClick={() => {inputRef.current.value=''; inputRef.current.focus();}}>Limpar</Btn>
-                    <Btn onClick={() => { salvar( inputRef, getInputValue, setHistorico, showAlerta ); }}>Salvar</Btn>
+                    <Btn onClick={() => {setValor(""); inputRef.current.focus();}}>Limpar</Btn>
+                    <Btn onClick={() => { salvar( inputRef, valor, setHistorico, showAlerta ); }}>Salvar</Btn>
                     </div>
                     <div className="flex flex-row justify-between">
-                    <Btn onClick={() => backspace(inputRef)}>BackSpace</Btn>
+                    <Btn onClick={() => backspace(inputRef, valor, setValor)}>BackSpace</Btn>
                     </div>
                 </div>
             </div>

@@ -1,24 +1,24 @@
 import { evaluate } from "mathjs";
 export const calcular = (
     inputRef,
-    getInputValue,
-    setInputValue,
+    valor,
+    setValor,
     setHistorico,
     showAlerta
 ) => {
   let el = inputRef.current;
   if (!el) return;
-  let inputValue = getInputValue().trim();
-  if (!inputValue) {
+  const valorInput = valor.trim();
+  if (!valorInput) {
     showAlerta("warning", "Digite uma expressão para calcular");
     el.focus();
     return;
   }
   try {
-    let resultado = evaluate(inputValue);
-    setInputValue(`${inputValue} = ${resultado}`);
+    let resultado = evaluate(valorInput);
+    setValor(`${valorInput} = ${resultado}`);
     setHistorico(prev => [
-      { conta: `${inputValue} = ${resultado}` },
+      { conta: `${valorInput} = ${resultado}` },
       ...prev
     ]);
     showAlerta("success", "Cálculo salvo!");
@@ -30,20 +30,20 @@ export const calcular = (
 };
 export const salvar = (
     inputRef,
-    getInputValue,
+    valor,
     setHistorico,
     showAlerta
 ) => {
   let el = inputRef.current;
   if (!el) return;
-  let inputValue = getInputValue().trim();
-  if (!inputValue) {
+  const valorInput = valor.trim();
+  if (!valorInput) {
     showAlerta("warning", "Digite algo para salvar");
     el.focus();
     return;
   }
   setHistorico(prev => [
-    { conta: inputValue },
+    { conta: valorInput },
     ...prev
   ]);
   showAlerta("success", "Salvo com sucesso!");
