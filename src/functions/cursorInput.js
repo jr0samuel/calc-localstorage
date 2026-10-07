@@ -46,7 +46,6 @@ export function setaDir(inputRef) {
 export const backspace = (inputRef, valor, setValor) => {
   let el = inputRef.current;
   if (!el) return;
-  let inputValue = el.value;
   let startPos = el.selectionStart ?? valor.length;
   let endPos = el.selectionEnd ?? valor.length;
   let newValue;
@@ -54,8 +53,10 @@ export const backspace = (inputRef, valor, setValor) => {
   if (startPos === endPos && startPos > 0) {
     newValue = valor.slice(0, startPos - 1) + valor.slice(endPos);
     pos = startPos - 1;
-  } else if (startPos !== endPos) newValue = valor.slice(0, startPos) + valor.slice(endPos);
-      else return;
+  } else if (startPos !== endPos) {
+    newValue = valor.slice(0, startPos) + valor.slice(endPos);
+    pos = startPos;
+  } else return;
   setValor(newValue);
   requestAnimationFrame(() => {
     el.setSelectionRange(pos, pos);

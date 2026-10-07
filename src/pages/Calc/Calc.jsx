@@ -46,7 +46,7 @@ export default function Calc(){
             <div>
                 <input ref={inputRef} value={valor} onChange={e => setValor(e.target.value)}
                   id="calcInput" name="inputCalc" inputMode="none" placeholder="Digite a expressão matemática"
-                  className="tab w-full h-10 text-center text-(--color-grey1) border-2 border-(--color-grey1)" />
+                  className="tab w-full h-10 text-center text-(--color-grey1) border-2 border-(--color-grey1) px-3" />
             </div>
             <div>
                 <a className="tab" href="/dicas" target="_blank" rel="noopener noreferrer">
