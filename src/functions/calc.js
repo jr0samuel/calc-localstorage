@@ -53,5 +53,5 @@ export const excluir = (index, setHistorico, showAlerta) => {
   setHistorico(prev =>
     prev.filter((_, i) => i !== index)
   );
-  showAlerta("success", "Excluído!");
+  showAlerta("info", "Excluído!");
 };

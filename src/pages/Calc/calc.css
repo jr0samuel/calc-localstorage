@@ -14,12 +14,12 @@ h3 { cursor: default; }
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
 }
-.tabela::-webkit-scrollbar { width: 15px; }
+.tabela::-webkit-scrollbar { width: 0px; }
 .tabela::-webkit-scrollbar-track {
     background: var(--color-dark2);
-    border: 1px solid var(--color-ambar);
+    border: 0px solid var(--color-ambar);
 }
 .tabela::-webkit-scrollbar-thumb {
     background: var(--color-red);
-    border: 1px solid var(--color-ambar);
+    border: 0px solid var(--color-ambar);
 }

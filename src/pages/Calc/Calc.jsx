@@ -35,18 +35,24 @@ export default function Calc(){
     }, [setValor, setHistorico, showAlerta]);
     return (
         <section>
-            <h1>Calculadora</h1>
-            {alerta && (
-                <Alerta
-                    type={alerta.type}
-                    message={alerta.message}
-                    onClose={() => setAlerta(null)}
-                />
-            )}
+            <div className="flex flex-row justify-around items-center gap-x-5">
+                <div></div>
+                <h1>Calculadora</h1>
+                <div>
+                  {alerta && (
+                      <Alerta
+                          type={alerta.type}
+                          message={alerta.message}
+                          onClose={() => setAlerta(null)}
+                      />
+                  )}
+                </div>
+            </div>
             <div>
                 <input ref={inputRef} value={valor} onChange={e => setValor(e.target.value)}
                   id="calcInput" name="inputCalc" inputMode="none" placeholder="Digite a expressão matemática"
-                  className="tab w-full h-10 text-center text-(--color-grey1) border-2 border-(--color-grey1) px-3" />
+                  className="tab w-full h-10 text-center text-(--color-grey1) border-2 border-(--color-grey1) px-3
+                    selection:bg-(--color-ambar) selection:text-(--color-dark1)" />
             </div>
             <div>
                 <a className="tab" href="/dicas" target="_blank" rel="noopener noreferrer">
@@ -121,7 +127,7 @@ export default function Calc(){
                     Histórico
                 </h3>
             </div>
-            <div className={`tabela ${historico.length === 1 ? "max-h-13" : "max-h-32"} border-2 border-(--color-ambar)`}>
+            <div className={`tabela ${historico.length === 1 ? "max-h-40" : "max-h-55"} border-2 border-(--color-ambar)`}>
                 {historico.map((item, index) => (
                     <div key={`${item.conta}-${index}`} className="elemento border-b-2 border-(--color-ambar) flex flex-row w-full">
                         <div className="conta min-w-[60%] flex-1 text-(--color-yellowgreen) border-r-4 border-(--color-ambar) p-3 flex items-center overflow-hidden">
@@ -130,7 +136,8 @@ export default function Calc(){
                                     ? `${item.conta} = ${item.resultado}` : item.conta;
                                     setValor(texto);
                                   } }
-                                  tabIndex='0' className='resultado calculo focus:outline-1 focus:outline-(--color-tan) px-1'
+                                  tabIndex='0' className='resultado calculo focus:outline-1 focus:outline-(--color-tan) px-1
+                                                selection:bg-(--color-ambar) selection:text-(--color-dark1)'
                                 >
                                     {item.resultado !== null && item.resultado !== undefined
                                       ? `${item.conta} = ${item.resultado}`

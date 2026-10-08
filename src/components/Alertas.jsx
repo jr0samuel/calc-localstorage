@@ -3,7 +3,8 @@ const Alerta = ( { type, message, onClose } ) => {
     const types = {
         success: 'bg-(--color-chartreuse) text-(--color-dark1) border border-(--color-chartreuse) rounded-md p-3 my-2',
         error: 'bg-(--color-red) text-(--color-dark1) border border-(--color-red) rounded-md p-3 my-2',
-        warning: 'bg-(--color-cadetblue) text-(--color-dark1) border border-(--color-cadetblue) rounded-md p-3 my-2'
+        warning: 'bg-(--color-cadetblue) text-(--color-dark1) border border-(--color-cadetblue) rounded-md p-3 my-2',
+        info: 'bg-(--color-ambar) text-(--color-dark1) border border-(--color-ambar) rounded-md p-3 my-2',
     };
     useEffect(() => {
         if (!onClose) return;
