@@ -72,10 +72,6 @@ export default function Dicas(){
                         O botão Calcular faz a conta e salva no histórico. Se quiser apenas salvar alguma coisa, um número ou informação, use o botão Salvar.
                     </p>
                     <hr className="taghr" />
-                    <p>
-                        Se a conta for grande, como na imagem abaixo, use os botões de movimentação que estão abaixo do botão Dicas, mas tem um detalhe no computador: ao clicar em Começo ou Fim ou nas setas da calculadora abaixo do botão Dicas, talvez você precise usar as setas do teclado do pc (também Home e End) ou o touchpad para mover o visor para os lados, mas a barrinha de digitação foi para o Começo ou Fim, só o visor que não acompanhou.
-                    </p>
-                    <hr className="taghr" />
                     <p className="text-center">
                         Se você adivinhar qual é o contexto da conta na imagem abaixo, você é gênio!
                     </p>
@@ -83,7 +79,7 @@ export default function Dicas(){
                     <img
                         className="my-0 mx-auto block"
                         src="/tela_da_calculadora_em_uso.png"
-                        alt="Imagem com o desafio para adivinhar o contexto dessa conta"
+                        alt="Imagem de uma conta na calculadora para você adivinhar o contexto"
                     />
                     <hr className="taghr"/>
                 </div>
