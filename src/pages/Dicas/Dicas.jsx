@@ -29,7 +29,7 @@ export default function Dicas(){
                     </p>
                     <hr className="taghr" />
                     <p>
-                        Mais um caso: 90 corresponde a quantos por cento dentro de 360? Faça 90 dividido por 360, o resultado é 0.25, depois multiplique 0.25 por 100, porque é porcentagem, portanto, 90 é 25% de 360.
+                        Mais um caso: 90 corresponde a quantos por cento dentro de 360? Faça 90 dividido por 360, o resultado é 0.25, depois multiplique 0.25 por 100, porque é porcentagem, portanto, 90 é 25% de 360 (90 é 4 vezes menor que 360). Isso também vale para o oposto: 360 corresponde a quantos por cento sobre 90? Faça 360 dividido por 90, o resultado é 4, depois multiplique 4 por 100, porque é porcentagem, portanto, 360 é 400% de 90 (360 é 4 vezes maior que 90).
                         <br/><br />
                         Perceba que 25% é 1 quarto (1/4), sendo assim, 90 vezes 4 é 360, e 360 dividido por 4 é 90.
                         <br/><br />
