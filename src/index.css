@@ -34,6 +34,9 @@ h1 {
     margin-bottom: 10px;
     cursor: default;
 }
+h1::selection, h3::selection {
+    background-color: var(--color-dark1);
+}
 .click {
     background-color: var(--color-red);
 }

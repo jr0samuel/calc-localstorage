@@ -61,13 +61,13 @@ export default function Dicas(){
                     </p>
                     <hr className="taghr" />
                     <p>
-                        Se a página atualizar por algum motivo ou você atualizar, mesmo sem querer, o que você digitou no visor será perdido, e a tela vai para o estado original com o visor vazio, mas as contas continuam salvas no histórico.
+                        Se a página atualizar por algum motivo ou você atualizar, mesmo sem querer, o que você digitou no visor será perdido, mas o que foi salvo continua salvo no histórico.
                         <br/><br />
                         A página com as Dicas abre em outra aba para você ficar com as duas abas abertas e poder consultar as dicas durante a conta.
                         <br/><br />
                         Se você estiver no celular, só tem o teclado da calculadora, o teclado do celular não vai aparecer.
                         <br/><br />
-                        Use * para multiplicação. Use / para divisão. Use ponto para números decimais, não use vírgula. Ao digitar mil (e outros milhares, milhões, etc), não digite 1.000 nem 1,000, digite apenas 1000.
+                        Use ponto para números decimais, não use vírgula. E ao digitar mil (e outros milhares, milhões, etc), não digite 1.000 nem 1,000, digite apenas 1000.
                         <br/><br />
                         O botão Calcular faz a conta e salva no histórico. Se quiser apenas salvar alguma coisa, um número ou informação, use o botão Salvar.
                     </p>

@@ -1,5 +1,8 @@
 p, img {
     padding: 15px;
+    &::selection {
+        background-color: var(--color-dark1);
+    }
 }
 .taghr {
     background-color: var(--color-cadetblue);
