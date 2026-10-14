@@ -134,65 +134,166 @@ export const backspace = (inputRef, valor, setValor) => {
     el.focus();
   });
 };
-async function copiarTextoParaClipboard(el, texto) {
+
+// v2.2
+const USAR_FALLBACK_EXECCOMMAND = true;
+function copiarViaExecCommand(texto) {
+  const temp = document.createElement("textarea");
+  temp.value = texto;
+  temp.setAttribute("readonly", "");
+  temp.style.position = "fixed";
+  temp.style.top = "0";
+  temp.style.left = "0";
+  temp.style.opacity = "0";
+  temp.style.fontSize = "12pt";
+  document.body.appendChild(temp);
+  temp.select();
+  temp.setSelectionRange(0, texto.length);
+  let ok = false;
+  try {
+    ok = document.execCommand("copy");
+  } catch {
+    ok = false;
+  }
+  document.body.removeChild(temp);
+  return ok;
+};
+async function copiarTextoParaClipboard(texto) {
   if (navigator.clipboard?.writeText) {
     try {
       await navigator.clipboard.writeText(texto);
-      return;
+      return true;
     } catch {
-      // cai no fallback abaixo
+      // segue para o fallback (se estiver habilitado)
     }
   }
-  const temp = document.createElement("textarea");
-  temp.value = texto;
-  temp.style.position = "fixed";
-  temp.style.opacity = "0";
-  document.body.appendChild(temp);
-  temp.select();
-  document.execCommand("copy");
-  document.body.removeChild(temp);
-  el.focus();
+  if (USAR_FALLBACK_EXECCOMMAND) return copiarViaExecCommand(texto);
+  return false;
 };
+
+// v1
+// async function copiarTextoParaClipboard(el, texto) {
+//   if (navigator.clipboard?.writeText) {
+//     try {
+//       await navigator.clipboard.writeText(texto);
+//       return;
+//     } catch {
+//       // cai no fallback abaixo
+//     }
+//   }
+//   const temp = document.createElement("textarea");
+//   temp.value = texto;
+//   temp.style.position = "fixed";
+//   temp.style.opacity = "0";
+//   document.body.appendChild(temp);
+//   temp.select();
+//   document.execCommand("copy");
+//   document.body.removeChild(temp);
+//   el.focus();
+// };
+
+// v2
+// async function copiarTextoParaClipboard(texto) {
+//   if (!navigator.clipboard?.writeText) return false;
+//   try {
+//     await navigator.clipboard.writeText(texto);
+//     return true;
+//   } catch {
+//     return false;
+//   }
+// };
+
+// v1
+// export async function copiar(inputRef, showAlerta) {
+//   let el = inputRef.current;
+//   if (!el) return;
+//   let startPos = el.selectionStart ?? 0;
+//   let endPos = el.selectionEnd ?? 0;
+//   if (startPos === endPos) {
+//     showAlerta?.("info", "Selecione um trecho para copiar");
+//     el.focus();
+//     return;
+//   }
+//   let texto = el.value.slice(startPos, endPos);
+//   await copiarTextoParaClipboard(el, texto);
+//   el.setSelectionRange(startPos, endPos);
+//   el.focus();
+// };
+
+// v2
 export async function copiar(inputRef, showAlerta) {
   let el = inputRef.current;
   if (!el) return;
   let startPos = el.selectionStart ?? 0;
   let endPos = el.selectionEnd ?? 0;
+  let dir = el.selectionDirection ?? "none";// v2.2
   if (startPos === endPos) {
     showAlerta?.("info", "Selecione um trecho para copiar");
     el.focus();
     return;
   }
-  let texto = el.value.slice(startPos, endPos);
-  await copiarTextoParaClipboard(el, texto);
-  el.setSelectionRange(startPos, endPos);
+  let ok = await copiarTextoParaClipboard(el.value.slice(startPos, endPos));
+  if (!ok) showAlerta?.("error", "Não foi possível copiar");
+  // el.setSelectionRange(startPos, endPos);// v2
   el.focus();
+  el.setSelectionRange(startPos, endPos, dir);// v2.2
 };
+
+// v1
+// export async function recortar(inputRef, valor, setValor, showAlerta) {
+//   let el = inputRef.current;
+//   if (!el) return;
+//   let startPos = el.selectionStart ?? 0;
+//   let endPos = el.selectionEnd ?? 0;
+//   if (startPos === endPos) {
+//     showAlerta?.("info", "Selecione um trecho para recortar");
+//     el.focus();
+//     return;
+//   }
+//   let texto = valor.slice(startPos, endPos);
+//   await copiarTextoParaClipboard(el, texto);
+//   let newValue = valor.slice(0, startPos) + valor.slice(endPos);
+//   setValor(newValue);
+//   requestAnimationFrame(() => {
+//     el.setSelectionRange(startPos, startPos);
+//     scrollCaretIntoView(el);
+//     el.focus();
+//   });
+// };
+
+// v2
 export async function recortar(inputRef, valor, setValor, showAlerta) {
   let el = inputRef.current;
   if (!el) return;
   let startPos = el.selectionStart ?? 0;
   let endPos = el.selectionEnd ?? 0;
+  let dir = el.selectionDirection ?? "none";// v2.2
   if (startPos === endPos) {
     showAlerta?.("info", "Selecione um trecho para recortar");
     el.focus();
     return;
   }
-  let texto = valor.slice(startPos, endPos);
-  await copiarTextoParaClipboard(el, texto);
-  let newValue = valor.slice(0, startPos) + valor.slice(endPos);
-  setValor(newValue);
+  let ok = await copiarTextoParaClipboard(valor.slice(startPos, endPos));
+  if (!ok) {
+    showAlerta?.("error", "Não foi possível recortar");
+    el.focus();
+    el.setSelectionRange(startPos, endPos, dir);// v2.2
+    return;
+  }
+  setValor(valor.slice(0, startPos) + valor.slice(endPos));
   requestAnimationFrame(() => {
     el.setSelectionRange(startPos, startPos);
     scrollCaretIntoView(el);
     el.focus();
   });
 };
+// 
 export async function colar(inputRef, valor, setValor, showAlerta) {
   let el = inputRef.current;
   if (!el) return;
   if (!navigator.clipboard?.readText) {
-    showAlerta?.("error", "Não foi possível colar (sem suporte neste navegador)");
+    // showAlerta?.("error", "Não foi possível colar (sem suporte neste navegador)");
+    showAlerta?.("error", "Colar indisponível: requer HTTPS ou navegador compatível");
     return;
   }
   let texto;
