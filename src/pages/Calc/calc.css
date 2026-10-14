@@ -23,3 +23,7 @@ h3 { cursor: default; }
     background: var(--color-red);
     border: 0px solid var(--color-ambar);
 }
+.maior {
+    height: auto;
+    /* height: 48px; */
+}

@@ -2,7 +2,7 @@ import "./calc.css";
 import { useEffect, useState, useRef, useContext } from "react";
 import { handleHead, keyLS } from "../../utils/handleHead.js";
 import { Btn, Botao } from "../../components/Btns.jsx";
-import { insertAtCursor, comeco, fim, setaEsq, setaDir, backspace } from "../../functions/cursorInput.js";
+import { insertAtCursor, comeco, fim, setaEsq, setaDir, backspace, copiar, recortar, colar } from "../../functions/cursorInput.js";
 import { calcular, salvar, excluir } from "../../functions/calc.js";
 import Alerta from "../../components/Alertas.jsx";
 import { CalcContext } from "../../context/CalcContext.jsx";
@@ -33,6 +33,29 @@ export default function Calc(){
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, [setValor, setHistorico, showAlerta]);
+    const [selecao, setSelecao] = useState(false);
+    const anchorRef = useRef(null);
+    const focusRef = useRef(null);
+    useEffect(() => {
+        setSelecao(false);
+        anchorRef.current = null;
+        focusRef.current = null;
+    }, [valor]);
+    const toggleSelecao = () => {
+        const el = inputRef.current;
+        setSelecao(prev => {
+            const next = !prev;
+            if (next && el) {
+                anchorRef.current = el.selectionStart;
+                focusRef.current = el.selectionEnd;
+            } else {
+                anchorRef.current = null;
+                focusRef.current = null;
+            }
+            return next;
+        });
+        el?.focus();
+    };
     return (
         <section>
             <div className="flex flex-row justify-around items-center gap-x-5">
@@ -62,18 +85,24 @@ export default function Calc(){
             <div id="btns">
                 <div className="max-[400px]:grid max-[400px]:grid-cols-1 min-[401px]:grid min-[401px]:grid-cols-3">
                     <div>
-                    <Btn onClick={() => comeco(inputRef)}>Começo</Btn>
+                      <Btn onClick={() => comeco(inputRef, selecao, anchorRef, focusRef)}>Começo</Btn>
                     </div>
                     <div className="flex flex-row justify-between">
-                    <Btn onClick={() => setaEsq(inputRef)}>⟵</Btn>
-                    <Btn onClick={() => setaDir(inputRef)}>⟶</Btn>
+                      <Btn onClick={() => setaEsq(inputRef, selecao, anchorRef, focusRef)}>⟵</Btn>
+                      <Btn onClick={() => setaDir(inputRef, selecao, anchorRef, focusRef)}>⟶</Btn>
                     </div>
                     <div>
-                    <Btn onClick={() => fim(inputRef)}>Fim</Btn>
+                      <Btn onClick={() => fim(inputRef, selecao, anchorRef, focusRef)}>Fim</Btn>
                     </div>
                 </div>
                 <div className="grid grid-cols-1">
                     <Btn onClick={() => insertAtCursor(inputRef, valor, setValor, ' ')}>Espaço</Btn>
+                </div>
+                <div className="grid grid-cols-4">
+                    <Btn onClick={toggleSelecao} className={selecao ? "selecionando maior" : "nao-selecionando maior"}>Seleção<br/>Trecho</Btn>
+                      <Btn onClick={() => copiar(inputRef, showAlerta)} className="maior">Copiar</Btn>
+                    <Btn onClick={() => recortar(inputRef, valor, setValor, showAlerta)} className="maior">Cortar</Btn>
+                    <Btn onClick={() => colar(inputRef, valor, setValor, showAlerta)} className="maior">Colar</Btn>
                 </div>
                 <div className="grid grid-cols-5">
                     <Btn onClick={() => insertAtCursor(inputRef, valor, setValor, ' + ')}>+</Btn>
