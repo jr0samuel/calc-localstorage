@@ -1,3 +1,5 @@
+import { flushSync } from "react-dom";
+
 function scrollCaretIntoView(el) {
   const pos = el.selectionStart ?? el.value.length;
   if (!scrollCaretIntoView._canvas) {
@@ -133,6 +135,18 @@ export const backspace = (inputRef, valor, setValor) => {
     scrollCaretIntoView(el);
     el.focus();
   });
+};
+
+// v2.3
+function aplicarValorAndCursor(el, setValor, newValue, pos) {
+  flushSync(() => setValor(newValue));
+  const posicionar = () => {
+    el.focus();
+    el.setSelectionRange(pos, pos);
+    scrollCaretIntoView(el);
+  };
+  posicionar();
+  requestAnimationFrame(posicionar);
 };
 
 // v2.2
@@ -280,12 +294,14 @@ export async function recortar(inputRef, valor, setValor, showAlerta) {
     el.setSelectionRange(startPos, endPos, dir);// v2.2
     return;
   }
-  setValor(valor.slice(0, startPos) + valor.slice(endPos));
-  requestAnimationFrame(() => {
-    el.setSelectionRange(startPos, startPos);
-    scrollCaretIntoView(el);
-    el.focus();
-  });
+  aplicarValorAndCursor(el, setValor, valor.slice(0, startPos) + valor.slice(endPos), startPos);// v2.3
+  // v2
+  // setValor(valor.slice(0, startPos) + valor.slice(endPos));
+  // requestAnimationFrame(() => {
+  //   el.setSelectionRange(startPos, startPos);
+  //   scrollCaretIntoView(el);
+  //   el.focus();
+  // });
 };
 // 
 export async function colar(inputRef, valor, setValor, showAlerta) {
@@ -293,9 +309,11 @@ export async function colar(inputRef, valor, setValor, showAlerta) {
   if (!el) return;
   if (!navigator.clipboard?.readText) {
     // showAlerta?.("error", "Não foi possível colar (sem suporte neste navegador)");
-    showAlerta?.("error", "Colar indisponível: requer HTTPS ou navegador compatível");
+    showAlerta?.("error", "Não foi possível colar (requer HTTPS ou navegador compatível)");
     return;
   }
+  let startPos = el.selectionStart ?? valor.length;
+  let endPos = el.selectionEnd ?? valor.length;
   let texto;
   try {
     texto = await navigator.clipboard.readText();
@@ -304,14 +322,13 @@ export async function colar(inputRef, valor, setValor, showAlerta) {
     return;
   }
   if (!texto) return;
-  let startPos = el.selectionStart ?? valor.length;
-  let endPos = el.selectionEnd ?? valor.length;
   let newValue = valor.substring(0, startPos) + texto + valor.substring(endPos);
-  let pos = startPos + texto.length;
-  setValor(newValue);
-  requestAnimationFrame(() => {
-    el.setSelectionRange(pos, pos);
-    scrollCaretIntoView(el);
-    el.focus();
-  });
+  // let pos = startPos + texto.length;
+  // setValor(newValue);
+  // requestAnimationFrame(() => {
+  //   el.setSelectionRange(pos, pos);
+  //   scrollCaretIntoView(el);
+  //   el.focus();
+  // });
+  aplicarValorAndCursor(el, setValor, newValue, startPos + texto.length);
 };

@@ -95,9 +95,6 @@ export default function Calc(){
                       <Btn onClick={() => fim(inputRef, selecao, anchorRef, focusRef)}>Fim</Btn>
                     </div>
                 </div>
-                <div className="grid grid-cols-1">
-                    <Btn onClick={() => insertAtCursor(inputRef, valor, setValor, ' ')}>Espaço</Btn>
-                </div>
                 <div className="grid grid-cols-4">
                     <Btn onClick={toggleSelecao} className={selecao ? "selecionando maior" : "nao-selecionando maior"}>Seleção<br/>Trecho</Btn>
                       <Btn onClick={() => copiar(inputRef, showAlerta)} className="maior">Copiar</Btn>
@@ -110,6 +107,9 @@ export default function Calc(){
                     <Btn onClick={() => insertAtCursor(inputRef, valor, setValor, ' * ')}>×</Btn>
                     <Btn onClick={() => insertAtCursor(inputRef, valor, setValor, ' / ')}>÷</Btn>
                     <Btn onClick={() => insertAtCursor(inputRef, valor, setValor, '^')}>^</Btn>
+                </div>
+                <div className="grid grid-cols-1">
+                    <Btn onClick={() => insertAtCursor(inputRef, valor, setValor, ' ')}>Espaço</Btn>
                 </div>
                 <div className="grid grid-cols-6">
                     <Btn onClick={() => insertAtCursor(inputRef, valor, setValor, '(')}>(</Btn>
