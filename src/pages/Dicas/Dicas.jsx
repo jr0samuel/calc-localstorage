@@ -15,12 +15,6 @@ export default function Dicas(){
                 <hr className="taghr opacity-0!" />
                 <div className="overflow-x-scroll scrollbar-none max-h-150">
                     <p>
-                        Para potenciação, faça 2^2, resultado 4. A potência de potência é (5^3)^0, resultado 1, é diferente de 5^3^0, resultado 5.
-                        <br/><br />
-                        Para radiciação, faça 25^(1/2), isso é a raiz quadrada de 25, resultado 5. Perceba: raiz quadrada é 1/2, raiz cúbica é 1/3, e assim sucessivamente. Existe relação entre a radiciação e a expoenenciação (potenciação). Não esqueça dos parênteses no expoente, senão o resultado será outro.
-                    </p>
-                    <hr className="taghr" />
-                    <p>
                         Para saber a porcentagem de algum valor, por exemplo, 20 por cento de 200, faça 0.2 (que é 20%) vezes 200, resultado 40, ou seja, 40 é 20% de 200.
                     </p>
                     <hr className="taghr" />
@@ -57,19 +51,30 @@ export default function Dicas(){
                     </p>
                     <hr className="taghr" />
                     <p>
-                        Uma dica importante sobre porcentagem: perceba que 10 por cento (10/100) é 0.1 (1 décimo), isso é apenas a estrutura básica da porcentagem, mas a porcentagem é um elemento relativo, ou seja, não tem valor por si, só tem relevância se estiver relacionado, relativo a algum valor absoluto, valor de fato, concreto. Um professor de matemática que tive ensinou que devemos fazer uma pergunta quando alguém fala "tal coisa é tantos por cento", vemos isso no jornalismo para fazer sensacionalismo e confundir o entendimento, e também podemos questionar a capacidade matemática de muitos jornalistas, enfim, a pergunta que meu professor ensinou é: "de quê?"; portanto, se alguém falar "tal coisa mudou tantos por cento", você pergunta "mudou tantos por cento de quê, de quanto, qual o valor original e qual o valor final?"; tome cuidado com jornalistas e pessoas que não mostram fatores importantes.
+                        Uma dica importante sobre porcentagem: perceba que 10 por cento (10/100) é 0.1 (1 décimo), isso é apenas a estrutura básica da porcentagem, mas a porcentagem é um elemento relativo, ou seja, não tem valor por si, só tem relevância se estiver relacionado, relativo a algum valor absoluto, valor de fato, concreto. Um professor de matemática que tive ensinou que devemos fazer uma pergunta quando alguém fala "tal coisa é tantos por cento", a pergunta é "de quê?", mas os jornalistas geralmente só falam "tal coisa é tantos por cento", além de exagero e sensacionalismo enviesado para confundir o entendimento das pessoas, e também podemos questionar a capacidade matemática de muitos jornalistas, portanto, se alguém falar "tal coisa mudou tantos por cento", você pergunta "mudou tantos por cento de quê, de quanto, qual o valor original e qual o valor final que mudou?"; tome cuidado com jornalistas e pessoas que não mostram fatores importantes.
+                    </p>
+                    <hr className="taghr" />
+                    <p>
+                        Para potenciação, faça 2^2, resultado 4 <br/>
+                        A potência de potência é (5^3)^0 (na calculadora) (5<sup>3</sup>)<sup>0</sup> (no papel), resultado 1 <br/>
+                        É diferente de 5^3^0 (na calculadora) 5<sup>3<sup>0</sup></sup> (no papel), resultado 5, essa conta é torre de potências ou potência por expoente <br/>
+                        E 5^(3^0) (na calculadora) 5<sup>(3<sup>0</sup>)</sup> (no papel) também é 5 e também é torre de potência ou potência com expoente de potência
+                        <br/><br />
+                        Para radiciação, faça 25^(1/2) ou 25^(0.5) (na calculadora) 25<sup>1/2</sup> ou 25<sup>&frac12;</sup> ou 25<sup>0.5</sup> (no papel), isso é a raiz quadrada de 25, resultado 5 {/* ( 25<sup>1<sub>/2</sub></sup> | 25<sup>1<sub>/<sub>2</sub></sub></sup> | 25<sup>1/<sub>2</sub></sup> ) */} <br/>
+                        Na calculadora, 25^1/2 é 12.5, mas 12^0.5 é 5, porém, é melhor usar (1/2), já que 1/3 é a raiz cúbica, e assim sucessivamente, além disso, 1/3 é igual a 0.333... com dízima periódica infinita de 3, isso não é bom usar na calculadora
                     </p>
                     <hr className="taghr" />
                     <p>
                         Se a página atualizar por algum motivo ou você atualizar, mesmo sem querer, o que você digitou no visor será perdido, mas o que foi salvo continua salvo no histórico.
                         <br/><br />
-                        A página com as Dicas abre em outra aba para você ficar com as duas abas abertas e poder consultar as dicas durante a conta.
-                        <br/><br />
-                        Se você estiver no celular, só tem o teclado da calculadora, o teclado do celular não vai aparecer.
-                        <br/><br />
-                        Use ponto para números decimais, não use vírgula. E ao digitar mil (e outros milhares, milhões, etc), não digite 1.000 nem 1,000, digite apenas 1000.
-                        <br/><br />
                         O botão Calcular faz a conta e salva no histórico. Se quiser apenas salvar alguma coisa, um número ou informação, use o botão Salvar.
+                        <br/><br />
+                        A página com as Dicas abre em outra aba para você ficar com as duas abas abertas e poder consultar as dicas durante as contas.
+                        <br/><br />
+                        Se você estiver no celular, só poderá usar o teclado da calculadora ou um teclado externo, porque o teclado do celular não vai aparecer para essa calculadora.
+                        <br/><br />
+                        Use ponto para números decimais (9.5), não use vírgula (9,5) <br/>
+                        Ao digitar mil (e outros milhares, milhões, etc), digite 1000 sem ponto e sem vírgula, não digite 1.000 nem 1,000
                     </p>
                     <hr className="taghr" />
                     <p className="text-center">
