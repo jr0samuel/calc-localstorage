@@ -61,7 +61,7 @@ export default function Dicas(){
                         E 5^(3^0) (na calculadora) 5<sup>(3<sup>0</sup>)</sup> (no papel) também é 5 e também é torre de potência ou potência com expoente de potência
                         <br/><br />
                         Para radiciação, faça 25^(1/2) ou 25^(0.5) (na calculadora) 25<sup>1/2</sup> ou 25<sup>&frac12;</sup> ou 25<sup>0.5</sup> (no papel), isso é a raiz quadrada de 25, resultado 5 {/* ( 25<sup>1<sub>/2</sub></sup> | 25<sup>1<sub>/<sub>2</sub></sub></sup> | 25<sup>1/<sub>2</sub></sup> ) */} <br/>
-                        Na calculadora, 25^1/2 é 12.5, mas 12^0.5 é 5, porém, é melhor usar (1/2), já que 1/3 é a raiz cúbica, e assim sucessivamente, além disso, 1/3 é igual a 0.333... com dízima periódica infinita de 3, isso não é bom usar na calculadora
+                        Na calculadora, 25^1/2 é 12.5, mas 12^0.5 é 5, porém, é melhor usar (1/2), já que 1/3 é a raiz cúbica, e assim sucessivamente, use só as frações (1/3 etc), não use 0.333... com dízima periódica, isso não é bom usar na calculadora, a menos que você queira exatamente 0.333
                     </p>
                     <hr className="taghr" />
                     <p>
