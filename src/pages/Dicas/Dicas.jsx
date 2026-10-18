@@ -67,7 +67,8 @@ export default function Dicas(){
                     <p>
                         Se a página atualizar por algum motivo ou você atualizar, mesmo sem querer, o que você digitou no visor será perdido, mas o que foi salvo continua salvo no histórico.
                         <br/><br />
-                        O botão Calcular faz a conta e salva no histórico. Se quiser apenas salvar alguma coisa, um número ou informação, use o botão Salvar.
+                        O botão Calcular faz a conta e salva no histórico, também pode apertar Enter. <br />
+                        Se quiser apenas salvar alguma coisa, um número ou informação, use o botão Salvar, também pode apertar Ctrl + Enter (segure Ctrl e aperte Enter).
                         <br/><br />
                         A página com as Dicas abre em outra aba para você ficar com as duas abas abertas e poder consultar as dicas durante as contas.
                         <br/><br />
