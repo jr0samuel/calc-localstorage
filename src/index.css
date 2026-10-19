@@ -1,19 +1,20 @@
 @import "tailwindcss";
 
 :root {
-    --color-white: rgb(255, 255, 255);
-    --color-dark1: rgb(0, 0, 0);
-    --color-dark2: rgb(40, 40, 40);
-    --color-tan: rgb(210, 180, 140);
-    --color-yellowgreen: rgb(154, 205, 50);
-    --color-yellow: rgba(255, 255, 0, 0.89);
-    --color-chartreuse: rgb(127, 255, 0);
-    --color-blue: rgb(27, 27, 173);
-    --color-cadetblue: rgb(95, 158, 160);
-    --color-red: rgb(146, 22, 17);
-    --color-ambar: oklch(66.6% 0.179 58.318);
-    --color-grey1: rgb(119, 117, 117);
-    --color-grey2: rgb(163, 159, 159);
+    color-scheme: light dark;
+    --color-white: light-dark(rgb(255, 255, 255));
+    --color-dark1: light-dark(rgb(0, 0, 0), rgb(0, 0, 0));
+    --color-dark2: light-dark(rgb(40, 40, 40), rgb(40, 40, 40));
+    --color-tan: light-dark(rgb(210, 180, 140), rgb(210, 180, 140));
+    --color-yellowgreen: light-dark(rgb(154, 205, 50), rgb(154, 205, 50));
+    --color-yellow: light-dark(rgba(255, 255, 0, 0.89), rgba(255, 255, 0, 0.89));
+    --color-chartreuse: light-dark(rgb(127, 255, 0), rgb(127, 255, 0));
+    --color-blue: light-dark(rgb(27, 27, 173), rgb(27, 27, 173));
+    --color-cadetblue: light-dark(rgb(95, 158, 160), rgb(95, 158, 160));
+    --color-red: light-dark(rgb(146, 22, 17), rgb(146, 22, 17));
+    --color-ambar: light-dark(oklch(66.6% 0.179 58.318), oklch(66.6% 0.179 58.318));
+    --color-grey1: light-dark(rgb(119, 117, 117), rgb(119, 117, 117));
+    --color-grey2: light-dark(rgb(163, 159, 159), rgb(163, 159, 159));
 }
 body {
     background-color: var(--color-dark2);
