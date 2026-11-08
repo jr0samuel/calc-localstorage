@@ -2,7 +2,7 @@ import "./calc.css";
 import { useEffect, useState, useRef, useContext } from "react";
 import { handleHead, keyLS } from "../../utils/handleHead.js";
 import { Btn, Botao } from "../../components/Btns.jsx";
-import { insertAtCursor, comeco, fim, setaEsq, setaDir, backspace, copiar, recortar, colar } from "../../functions/cursorInput.js";
+import { insertAtCursor, comeco, fim, setaEsq, setaDir, backspace, copiar, recortar, colar, manterCursorVisible } from "../../functions/cursorInput.js";
 import { calcular, salvar, excluir } from "../../functions/calc.js";
 import Alerta from "../../components/Alertas.jsx";
 import { CalcContext } from "../../context/CalcContext.jsx";
@@ -56,6 +56,7 @@ export default function Calc(){
         });
         el?.focus();
     };
+    useEffect(() => manterCursorVisible(inputRef), [inputRef]);
     return (
         <section>
             <div className="flex flex-row justify-around items-center gap-x-5">

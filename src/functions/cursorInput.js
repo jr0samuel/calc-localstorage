@@ -332,3 +332,20 @@ export async function colar(inputRef, valor, setValor, showAlerta) {
   // });
   aplicarValorAndCursor(el, setValor, newValue, startPos + texto.length);
 };
+export function manterCursorVisible(inputRef) {
+  const reajustar = () => {
+    let el = inputRef.current;
+    if (!el) return;
+    scrollCaretIntoView(el);
+    requestAnimationFrame(() => scrollCaretIntoView(el));
+  };
+  const aoMudarVisibilidade = () => {
+    if (document.visibilityState === "visible") reajustar();
+  };
+  document.addEventListener("visibilitychange", aoMudarVisibilidade);
+  window.addEventListener("focus", reajustar);
+  return () => {
+    document.removeEventListener("visibilitychange", aoMudarVisibilidade);
+    window.removeEventListener("focus", reajustar);
+  };
+};
