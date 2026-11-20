@@ -15,7 +15,11 @@ export default function Dicas(){
                 <hr className="taghr opacity-0!" />
                 <div className="overflow-x-scroll scrollbar-none max-h-150">
                     <p>
-                        Para saber a porcentagem de algum valor, por exemplo, 20 por cento de 200, faça 0.2 (que é 20%) vezes 200, resultado 40, ou seja, 40 é 20% de 200.
+                        Para saber a porcentagem de algum valor, por exemplo, 20 por cento de 200, faça 20 vezes 0.2 (que é 20%), resultado 40, ou seja, 40 é 20% de 200.
+                        <br/><br />
+                        0.2 é um quinto, então também pode fazer 20 vezes (1/5). Tem que usar parênteses. Às vezes é melhor usar fração, por exemplo, um terço é 33.333...%, em decimal é 0.333... com dízima periódica infinita, mas (1/3) é exato. Se quiser 33%, use 0.33. Se quiser 33.3%, use 0.333, e assim por diante.
+                        <br/><br />
+                        Se quiser ou precisar percorrer um caminho longo, faça 200 vezes 0.8 (que é 80%), resultado 160, depois subtraia 160 de 200, o resultado é 40, tirando 80% para ficar com 20%. Também pode fazer 200 vezes (4/5), que é 80%.
                     </p>
                     <hr className="taghr" />
                     <p>
@@ -28,12 +32,6 @@ export default function Dicas(){
                         Perceba que 25% é 1 quarto (1/4), sendo assim, 90 vezes 4 é 360, e 360 dividido por 4 é 90.
                         <br/><br />
                         Outra coisa interessante: 90 é 360% (3.6) vezes maior que 25. Vamos repartir 360% em 300% (3) + 50% (0.5) + 10% (0.1). Comece multiplicando 25 por 300% (25 vezes 3), resultado 75. Depois 25 por 50% (25 vezes 0.5), resultado 12.5, então soma 75 com 12.5, é 87.5. Por fim, 25 por 10% (25 vezes 0.1), resultado 2.5, soma 87.5 com 2.5. O resultado final é 90, ou seja, 25 vezes 3.6 é 90, e 90 dividido por 3.6 é 25.
-                    </p>
-                    <hr className="taghr" />
-                    <p>
-                        Para saber qual valor corresponde a 10% dentro de 500, faça 500 vezes 0.1 (que é 10%), o resultado é 50.
-                        <br/><br />
-                        Ou faça o contrário: 500 vezes 0.9 (90%), o resultado é 450, mas isso é 90%, então tem que subtrair 500 menos 450 para pegar 10%, que é 50.
                     </p>
                     <hr className="taghr" />
                     <p>
@@ -74,7 +72,7 @@ export default function Dicas(){
                         <br/><br />
                         Se você estiver no celular, só poderá usar o teclado da calculadora ou um teclado externo, porque o teclado do celular não vai aparecer para essa calculadora.
                         <br/><br />
-                        Use ponto para números decimais (9.5), não use vírgula (9,5) <br/>
+                        Use ponto para números decimais (9.5), não use vírgula (9,5) <br />
                         Ao digitar mil (e outros milhares, milhões, etc), digite 1000 sem ponto e sem vírgula, não digite 1.000 nem 1,000
                     </p>
                     <hr className="taghr" />
