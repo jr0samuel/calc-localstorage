@@ -58,7 +58,9 @@ export default function Dicas(){
                         É diferente de 5^3^0 (na calculadora) 5<sup>3<sup>0</sup></sup> (no papel), resultado 5, essa conta é torre de potências ou potência por expoente <br/>
                         E 5^(3^0) (na calculadora) 5<sup>(3<sup>0</sup>)</sup> (no papel) também é 5 e também é torre de potência ou potência com expoente de potência
                         <br/><br />
-                        Para radiciação, faça 25^(1/2) ou 25^(0.5) (na calculadora) 25<sup>1/2</sup> ou 25<sup>&frac12;</sup> ou 25<sup>0.5</sup> (no papel), isso é a raiz quadrada de 25, resultado 5 {/* ( 25<sup>1<sub>/2</sub></sup> | 25<sup>1<sub>/<sub>2</sub></sub></sup> | 25<sup>1/<sub>2</sub></sup> ) */} <br/>
+                        Para radiciação, faça 25^(1/2) ou 25^(0.5) (na calculadora) 25<sup>1/2</sup> ou 25<sup>&frac12;</sup> ou 25<sup>0.5</sup> (no papel), isso é a raiz quadrada de 25, resultado 5. Tem que usar parênteses senão o resultado será diferente. Com fração no expoente, é radiciação, então precisa de parênteses. <br/>
+                        Também pode fazer 4^(3/2), resultado 8. O denominador é o índice da raiz e o numerador é a potência da base. A solução é: raiz quadrada de 4 é 2 e depois 2 elevado a 3 é 8. Ou o contrário: 4 elevado a 3 é 64 e raiz quadrada de 64 é 8.
+                        {/* ( 25<sup>1<sub>/2</sub></sup> | 25<sup>1<sub>/<sub>2</sub></sub></sup> | 25<sup>1/<sub>2</sub></sup> ) */}
                     </p>
                     <hr className="taghr" />
                     <p>
