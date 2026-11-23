@@ -17,9 +17,8 @@ export default function Dicas(){
                     <p>
                         Para saber a porcentagem de algum valor, por exemplo, 20 por cento de 200, faça 20 vezes 0.2 (que é 20%), resultado 40, ou seja, 40 é 20% de 200.
                         <br/><br />
-                        0.2 é um quinto, então também pode fazer 20 vezes (1/5). Tem que usar parênteses. Às vezes é melhor usar fração, por exemplo, um terço é 33.333...%, em decimal é 0.333... com dízima periódica infinita, mas (1/3) é exato. Se quiser 33%, use 0.33. Se quiser 33.3%, use 0.333, e assim por diante.
-                        <br/><br />
-                        Se quiser ou precisar percorrer um caminho longo, faça 200 vezes 0.8 (que é 80%), resultado 160, depois subtraia 160 de 200, o resultado é 40, tirando 80% para ficar com 20%. Também pode fazer 200 vezes (4/5), que é 80%.
+                        0.2 é um quinto, então também pode fazer 200 vezes (1/5). Não precisa de parênteses. <br/>
+                        Às vezes é melhor usar fração, por exemplo, um terço é 33.333...%, com dízima periódica infinita, em decimal é 0.333..., mas (1/3) é exato (e alcança limites infinitesimais), por exemplo, 60 * 0.33333 = 19.9998, mas 60 * (1/3) = 20. Se quiser apenas 33%, use 0.33, isso não é exatamente 1 terço. Se quiser apenas 33.3%, use 0.333, e assim por diante.
                     </p>
                     <hr className="taghr" />
                     <p>
@@ -27,29 +26,29 @@ export default function Dicas(){
                     </p>
                     <hr className="taghr" />
                     <p>
-                        Mais um caso: 90 corresponde a quantos por cento dentro de 360? Faça 90 dividido por 360, o resultado é 0.25, depois multiplique 0.25 por 100, porque é porcentagem, portanto, 90 é 25% de 360 (90 é 4 vezes menor que 360). Isso também vale para o oposto: 360 corresponde a quantos por cento sobre 90? Faça 360 dividido por 90, o resultado é 4, depois multiplique 4 por 100, porque é porcentagem, portanto, 360 é 400% de 90 (360 é 4 vezes maior que 90).
-                        <br/><br />
-                        Perceba que 25% é 1 quarto (1/4), sendo assim, 90 vezes 4 é 360, e 360 dividido por 4 é 90.
-                        <br/><br />
-                        Outra coisa interessante: 90 é 360% (3.6) vezes maior que 25. Vamos repartir 360% em 300% (3) + 50% (0.5) + 10% (0.1). Comece multiplicando 25 por 300% (25 vezes 3), resultado 75. Depois 25 por 50% (25 vezes 0.5), resultado 12.5, então soma 75 com 12.5, é 87.5. Por fim, 25 por 10% (25 vezes 0.1), resultado 2.5, soma 87.5 com 2.5. O resultado final é 90, ou seja, 25 vezes 3.6 é 90, e 90 dividido por 3.6 é 25.
+                        Mais um caso: 90 corresponde a quantos por cento dentro de 360? Faça 90 dividido por 360, o resultado é 0.25, depois multiplique 0.25 por 100, porque é porcentagem, portanto, 90 é 25% de 360. 25% é 1/4, 90 é 4 vezes menor que 360. <br/>
+                        Isso também vale para o oposto: 360 corresponde a quantos por cento sobre 90? Faça 360 dividido por 90, o resultado é 4, depois multiplique 4 por 100, portanto, 360 é 400% de 90 (360 é 4 vezes maior que 90). <br/>
+                        90 vezes 4 é 360. E 360 dividido por 4 é 90.
                     </p>
                     <hr className="taghr" />
                     <p>
-                        Para saber o desconto de algo: se for "algo é 150 com desconto de 20%", faça 150 vezes 0.8 (que é 80%), o resultado é 120, porque pega só 80% sem 20%, e a diferença entre 120 e 150 é 30, que é o desconto. Também pode fazer o contrário: 150 vezes 0.2 para pegar 20%, o resultado é 30, depois subtrair 30 de 150. 30 é o desconto, 120 é o valor final depois do desconto.
+                        Para saber o desconto de algo: se for "algo é 120 com 20% de desconto", não mostra o valor incial sem o desconto, para saber, faça 1 menos 0.2, o resultado é 0.8 (80%), 1 é a representação do valor inicial que recebeu desconto e 0.2 é o desconto de 20%, então faça 120 dividido por 0.8, o resultado é 150, isso é o valor incial e 120 é 80% do valor inicial. O desconto foi 30, que é 20% do inicial.
                         <br/><br />
-                        Se for "algo é 120 com 20% de desconto", não mostra o valor completo sem desconto, para saber, faça 120 dividido por 0.8 (que é 80%), sem 20%, o resultado é 150, que é o valor completo sem desconto, repare que 120 é o valor descontado, é 80% (0.8) do completo, e 150 é o completo 100%, e o desconto (20%) é a diferença entre 150 e 120, que é 30.
+                        Se for "algo diminuiu de 150 para 120", não mostra a porcentagem que descontou, faça 120 dividido por 150, o resultado é 0.8, isso quer dizer que 120 é 80% de 150, então descontou 0.2 (20%), que é 30. 0.8 menos 1 é -0.2, isso é 20% negativo, é o que descontou.
                         <br/><br />
-                        Se for "algo diminui de 150 para 120", não mostra a porcentagem que descontou, para saber, faça 120 dividido por 150, o resultado é 0.8, isso quer dizer que 120 é 0.8 (80%) de 150, então descontou 0.2 (20%), que é 30.
+                        Se for "algo é 150 e vai descontar 20%", não mostra o valor final com o desconto, faça 150 vezes 0.2 para saber quanto é 20% de 150, o resultado é 30, então o desconto é 150 menos 30, o valor final é 120.
                         <br/><br />
-                        Para saber o aumento de algo: "algo aumentou 20% de 150", faça 150 vezes 1.2, o resultado é 180, perceba que 1.2 é 1 (100%) mais 0.2 (20%), logo, 150 mais 20%. Outra forma é 150 vezes 0.2, o resultado é 30, então soma 30 em 150.
+                        Para saber o aumento de algo: se for "algo é 150 e vai aumentar 20%", não mostra o valor final com o aumento, pode fazer a mesma conta anterior (150 vezes 0.2) e depois somar 150 com 30, porque é aumento, o valor final é 180. Outra forma é fazer semelhante à primeira conta do desconto de 20%, nesse caso é aumento, é 1 mais 0.2, isso é 1.2, o aumento de 20%, 150 mais 20%, então faça 150 vezes 1.2, o resultado é 180.
                         <br/><br />
-                        Se for "algo é 180 com 20% de aumento", não mostra o valor sem aumento, faça 180 dividido por 1.2, o resultado é 150, quer dizer que 150 é a base que teve aumento de 20%, no caso, 30.
+                        Se for "algo é 180 com 20% de aumento", não mostra o valor inicial sem o aumento, precisa do aumento, ou seja, 1 mais 0.2, então faça 180 dividido por 1.2 (semelhante à primeira conta), o resultado é 150, quer dizer que 150 é o valor inicial que aumentou 20% e foi para 180, aumentou 30, que é 20% do inicial.
                         <br/><br />
-                        Se for "algo aumenta de 150 para 180", não mostra a porcentagem que aumentou, faça 180 dividido por 150, o resultado é 1.2, ou seja, aumentou 20%, no caso, 30.
+                        Se for "algo aumentou de 150 para 180", não mostra a porcentagem que aumentou, faça 180 dividido por 150, o resultado é 1.2, ou seja, aumentou 20%, no caso, 30. 1.2 menos 1 é 0.2, isso é 20% positivo, é o que aumentou.
+                        <br/><br />
+                        Quando tem os dois valores, por exemplo, de 150 para 180, também pode fazer (180 - 150) / 150, resultado 0.2. A mesma coisa de 150 para 120, faça (120 - 150) / 150, resultado -0.2. Perceba: é o valor final - o valor inicial e depois divide pelo valor inicial. Os parênteses servem para a calculadora seguir essa ordem.
                     </p>
                     <hr className="taghr" />
                     <p>
-                        Uma dica importante sobre porcentagem: perceba que 10 por cento (10/100) é 0.1 (1 décimo), isso é apenas a estrutura básica da porcentagem, mas a porcentagem é um elemento relativo, ou seja, não tem valor por si, só tem relevância se estiver relacionado, relativo a algum valor absoluto, valor de fato, concreto. Um professor de matemática que tive ensinou que devemos fazer uma pergunta quando alguém fala "tal coisa é tantos por cento", a pergunta é "de quê?", mas os jornalistas geralmente só falam "tal coisa é tantos por cento", além de exagero e sensacionalismo enviesado para confundir o entendimento das pessoas, e também podemos questionar a capacidade matemática de muitos jornalistas, portanto, se alguém falar "tal coisa mudou tantos por cento", você pergunta "mudou tantos por cento de quê, de quanto, qual o valor original e qual o valor final que mudou?"; tome cuidado com jornalistas e pessoas que não mostram fatores importantes.
+                        Uma dica importante sobre porcentagem: perceba que 10 por cento (10/100) é 0.1 (1 décimo), isso é apenas a estrutura básica da porcentagem. A porcentagem é um elemento relativo, ou seja, não tem valor por si, só tem relevância se estiver relacionado, relativo a algum valor absoluto, valor de fato, concreto. Um professor de matemática ensinou que devemos fazer uma pergunta quando alguém fala "tal coisa é tantos por cento", a pergunta é "de quê?", mas os jornalistas geralmente só falam "tal coisa é tantos por cento", além de exagero e sensacionalismo enviesado para confundir o entendimento das pessoas, e também podemos questionar a capacidade matemática de muitos jornalistas, portanto, se alguém falar "tal coisa mudou tantos por cento", você pergunta "mudou tantos por cento de quê, de quanto, qual o valor inicial e qual o valor final?"; tome cuidado com jornalistas e pessoas que não mostram fatores importantes.
                     </p>
                     <hr className="taghr" />
                     <p>
@@ -64,6 +63,9 @@ export default function Dicas(){
                     </p>
                     <hr className="taghr" />
                     <p>
+                        Use ponto para números decimais (9.5), não use vírgula (9,5) <br />
+                        Ao digitar mil (e outros milhares, milhões, etc), digite 1000 sem ponto e sem vírgula, não digite 1.000 nem 1,000
+                        <br/><br />
                         Se a página atualizar por algum motivo ou você atualizar, mesmo sem querer, o que você digitou no visor será perdido, mas o que foi salvo continua salvo no histórico.
                         <br/><br />
                         O botão Calcular faz a conta e salva no histórico, também pode apertar Enter. <br />
@@ -72,9 +74,6 @@ export default function Dicas(){
                         A página com as Dicas abre em outra aba para você ficar com as duas abas abertas e poder consultar as dicas durante as contas.
                         <br/><br />
                         Se você estiver no celular, só poderá usar o teclado da calculadora ou um teclado externo, porque o teclado do celular não vai aparecer para essa calculadora.
-                        <br/><br />
-                        Use ponto para números decimais (9.5), não use vírgula (9,5) <br />
-                        Ao digitar mil (e outros milhares, milhões, etc), digite 1000 sem ponto e sem vírgula, não digite 1.000 nem 1,000
                     </p>
                     <hr className="taghr" />
                     <p className="text-center">

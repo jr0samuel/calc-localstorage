@@ -14,8 +14,8 @@ const Alerta = ( { type, message, onClose } ) => {
         return () => clearTimeout(timer);
     }, [message, onClose]);
     return (
-        <div className={`${types[type]} shadow-md flex items-center justify-between`}>
-            <span className="cursor-default">{message}</span>
+        <div className={`${types[type]} shadow-md flex items-center justify-between selection:bg-(--color-dark2) selection:text-(--color-white1)`}>
+            <span className="cursor-default pr-2">{message}</span>
             {onClose && (
                 <button onClick={onClose} className="font-bold cursor-pointer focus:outline-2 focus:outline-(--color-blue) px-2">
                     X

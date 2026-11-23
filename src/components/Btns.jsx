@@ -13,7 +13,7 @@ export const Btn = ( { children, onClick, className } ) => {
     };
     return (
         <button className={`${className} ${clicked ? "btn clik" : "btn"}
-          w-full h-10 text-center text-(--color-dark1) bg-(--color-grey1) border border-(--color-black2) rounded-md hover:bg-(--color-grey2)`}
+          w-full h-10 text-center text-(--color-dark1) bg-(--color-grey1) border border-(--color-black2) rounded-md hover:bg-(--color-grey2) selection:bg-(--color-ambar)`}
           onClick={handleClik} tabIndex="-1" onMouseDown={e => e.preventDefault()}>
             {children}
         </button>
