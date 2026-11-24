@@ -1,4 +1,5 @@
 import { evaluate } from "mathjs";
+const SEPARADOR = " = ";
 export const calcular = (
     inputRef,
     valor,
@@ -54,4 +55,12 @@ export const excluir = (index, setHistorico, showAlerta) => {
     prev.filter((_, i) => i !== index)
   );
   showAlerta("info", "Excluído!");
+};
+export function separarConta(texto){
+  const i = texto.lastIndexOf(SEPARADOR);
+  if (i === -1) return { expressao: texto, resultado: null };
+  const expressao = texto.slice(0, i);
+  const resultado = texto.slice(i + SEPARADOR.length);
+  if (!expressao || !resultado) return { expressao: texto, resultado: null };
+  return { expressao, resultado };
 };

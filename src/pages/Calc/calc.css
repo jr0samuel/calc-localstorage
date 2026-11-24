@@ -24,6 +24,6 @@ h3 { cursor: default; }
     border: 0px solid var(--color-ambar);
 }
 .maior {
-    height: auto;
-    /* height: 48px; */
+    /* height: auto; */
+    height: 48px;
 }

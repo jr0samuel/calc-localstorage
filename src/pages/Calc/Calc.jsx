@@ -1,9 +1,9 @@
 import "./calc.css";
-import { useEffect, useState, useRef, useContext } from "react";
+import { useEffect, useState, useRef, useContext, useCallback } from "react";
 import { handleHead, keyLS } from "../../utils/handleHead.js";
 import { Btn, Botao } from "../../components/Btns.jsx";
-import { insertAtCursor, comeco, fim, setaEsq, setaDir, backspace, copiar, recortar, colar, manterCursorVisible } from "../../functions/cursorInput.js";
-import { calcular, salvar, excluir } from "../../functions/calc.js";
+import { insertAtCursor, comeco, fim, setaEsq, setaDir, backspace, copiar, recortar, colar, mostrarNoDisplay, manterCursorVisible } from "../../functions/cursorInput.js";
+import { calcular, salvar, excluir, separarConta } from "../../functions/calc.js";
 import Alerta from "../../components/Alertas.jsx";
 import { CalcContext } from "../../context/CalcContext.jsx";
 export default function Calc(){
@@ -19,7 +19,12 @@ export default function Calc(){
     const {valor, setValor} = useContext(CalcContext);
     const inputRef = useRef(null);
     const [alerta, setAlerta] = useState(null);
-    const showAlerta = ( type, message ) => setAlerta( { type, message } );
+    const alertaId = useRef(0);
+    const showAlerta = useCallback(( type, message ) => {
+        alertaId.current += 1;
+        setAlerta( { id: alertaId.current, type, message } );
+    }, []);
+    const fecharAlerta = useCallback(() => setAlerta(null), []);
     const valorRef = useRef(valor);
     useEffect(() => { valorRef.current = valor; }, [valor]);
     useEffect(() => {
@@ -27,8 +32,8 @@ export default function Calc(){
             const foco = document.activeElement === inputRef.current || document.activeElement === document.body;
             if (!foco || e.key !== "Enter") return;
             e.preventDefault();
-            if (e.ctrlKey || e.metaKey) salvar( inputRef, valor, setHistorico, showAlerta );
-            else calcular( inputRef, valor, setValor, setHistorico, showAlerta );
+            if (e.ctrlKey || e.metaKey) salvar( inputRef, valorRef.current, setHistorico, showAlerta );
+            else calcular( inputRef, valorRef.current, setValor, setHistorico, showAlerta );
         };
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
@@ -59,15 +64,15 @@ export default function Calc(){
     useEffect(() => manterCursorVisible(inputRef), [inputRef]);
     return (
         <section>
-            <div className="flex flex-row justify-around items-center gap-x-5">
-                <div></div>
+            <div className="grid grid-cols-1 gap-x-5">
                 <h1>Calculadora</h1>
-                <div>
+                <div className="mx-auto -mt-4">
                   {alerta && (
                       <Alerta
+                          key={alerta.id}
                           type={alerta.type}
                           message={alerta.message}
-                          onClose={() => setAlerta(null)}
+                          onClose={fecharAlerta}
                       />
                   )}
                 </div>
@@ -85,28 +90,28 @@ export default function Calc(){
             </div>
             <div id="btns">
                 <div className="max-[400px]:grid max-[400px]:grid-cols-1 min-[401px]:grid min-[401px]:grid-cols-3">
-                    <div>
                       <Btn onClick={() => comeco(inputRef, selecao, anchorRef, focusRef)}>Começo</Btn>
-                    </div>
                     <div className="flex flex-row justify-between">
                       <Btn onClick={() => setaEsq(inputRef, selecao, anchorRef, focusRef)}>⟵</Btn>
                       <Btn onClick={() => setaDir(inputRef, selecao, anchorRef, focusRef)}>⟶</Btn>
                     </div>
-                    <div>
                       <Btn onClick={() => fim(inputRef, selecao, anchorRef, focusRef)}>Fim</Btn>
-                    </div>
                 </div>
-                <div className="grid grid-cols-4">
+                <div className="max-[400px]:grid max-[400px]:grid-cols-1 min-[401px]:grid min-[401px]:grid-cols-2">
+                    <div className="flex flex-row justify-between">
                     <Btn onClick={toggleSelecao} className={selecao ? "selecionando maior" : "nao-selecionando maior"}>Seleção<br/>Trecho</Btn>
-                      <Btn onClick={() => copiar(inputRef, showAlerta)} className="maior">Copiar</Btn>
+                    <Btn onClick={() => copiar(inputRef, showAlerta)} className="maior">Copiar</Btn>
+                    </div>
+                    <div className="flex flex-row justify-between">
                     <Btn onClick={() => recortar(inputRef, valor, setValor, showAlerta)} className="maior">Cortar</Btn>
                     <Btn onClick={() => colar(inputRef, valor, setValor, showAlerta)} className="maior">Colar</Btn>
+                    </div>
                 </div>
                 <div className="grid grid-cols-5">
-                    <Btn onClick={() => insertAtCursor(inputRef, valor, setValor, ' + ')}>+</Btn>
-                    <Btn onClick={() => insertAtCursor(inputRef, valor, setValor, ' - ')}>−</Btn>
-                    <Btn onClick={() => insertAtCursor(inputRef, valor, setValor, ' * ')}>×</Btn>
-                    <Btn onClick={() => insertAtCursor(inputRef, valor, setValor, ' / ')}>÷</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, valor, setValor, '+')}>+</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, valor, setValor, '-')}>−</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, valor, setValor, '*')}>×</Btn>
+                    <Btn onClick={() => insertAtCursor(inputRef, valor, setValor, '/')}>÷</Btn>
                     <Btn onClick={() => insertAtCursor(inputRef, valor, setValor, '^')}>^</Btn>
                 </div>
                 <div className="grid grid-cols-1">
@@ -158,28 +163,40 @@ export default function Calc(){
                 </h3>
             </div>
             <div className={`tabela ${historico.length === 1 ? "max-h-40" : "max-h-55"} border-2 border-(--color-ambar)`}>
-                {historico.map((item, index) => (
-                    <div key={`${item.conta}-${index}`} className="elemento border-b-2 border-(--color-ambar) flex flex-row w-full">
-                        <div className="conta min-w-[60%] flex-1 text-(--color-yellowgreen) border-r-4 border-(--color-ambar) p-3 flex items-center overflow-hidden">
-                            <div tabIndex='0' className='resultado focus:outline-1 focus:outline-(--color-tan) px-1.5 w-full break-all min-w-0'>
-                                <span onClick={() => { const texto = item.resultado !== null && item.resultado !== undefined
-                                    ? `${item.conta} = ${item.resultado}` : item.conta;
-                                    setValor(texto);
-                                  } }
-                                  tabIndex='0' className='resultado calculo focus:outline-1 focus:outline-(--color-tan) px-1
-                                                selection:bg-(--color-ambar) selection:text-(--color-dark1)'
-                                >
-                                    {item.resultado !== null && item.resultado !== undefined
-                                      ? `${item.conta} = ${item.resultado}`
-                                      : item.conta}
-                                </span>
+                {historico.map((item, index) => {
+                    const {expressao, resultado} = separarConta(item.conta);
+                    return (
+                        <div key={`${item.conta}-${index}`} className="elemento border-b-2 border-(--color-ambar) flex flex-row w-full">
+                            <div className="conta min-w-[60%] flex-1 text-(--color-yellowgreen) border-r-4 border-(--color-ambar) p-3 flex items-center overflow-hidden">
+                                <div tabIndex='0' className='resultado focus:outline-1 focus:outline-(--color-tan) px-1.5 w-full break-all min-w-0'>
+                                    <span role="button" tabIndex={0} onClick={() => mostrarNoDisplay(inputRef, setValor, expressao)}
+                                      className='resultado calculo focus:outline-1 focus:outline-(--color-tan) px-1
+                                                    selection:bg-(--color-ambar) selection:text-(--color-dark1)
+                                                    hover:underline'
+                                    >
+                                        {expressao}
+                                    </span>
+                                    {resultado !== null && (
+                                        <>
+                                            <span className="selection:bg-(--color-ambar) selection:text-(--color-dark1)"> = </span>
+                                            <span role="button" tabIndex={0}
+                                              onClick={() => mostrarNoDisplay(inputRef, setValor, resultado)}
+                                              className='resultado calculo focus:outline-1 focus:outline-(--color-tan) px-1
+                                                    selection:bg-(--color-ambar) selection:text-(--color-dark1)
+                                                    hover:underline'
+                                            >
+                                                {resultado}
+                                            </span>
+                                        </>
+                                    )}
+                                </div>
+                            </div>
+                            <div className="lixeira shrink-0 p-3 flex justify-center items-center">
+                                <Botao onClick={() => excluir( index, setHistorico, showAlerta )} aria-label={`Excluir ${item.conta} do histórico`} />
                             </div>
                         </div>
-                        <div className="lixeira shrink-0 p-3 flex justify-center items-center">
-                            <Botao onClick={() => excluir( index, setHistorico, showAlerta )} aria-label={`Excluir ${item.conta} do histórico`} />
-                        </div>
-                    </div>
-                ))}
+                    );
+                })}
             </div>
         </section>
     );

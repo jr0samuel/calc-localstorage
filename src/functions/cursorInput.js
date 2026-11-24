@@ -1,5 +1,4 @@
 import { flushSync } from "react-dom";
-
 function scrollCaretIntoView(el) {
   const pos = el.selectionStart ?? el.value.length;
   if (!scrollCaretIntoView._canvas) {
@@ -138,10 +137,10 @@ export const backspace = (inputRef, valor, setValor) => {
 };
 
 // v2.3
-function aplicarValorAndCursor(el, setValor, newValue, pos) {
+function aplicarValorAndCursor(el, setValor, newValue, pos, focar = true) {
   flushSync(() => setValor(newValue));
   const posicionar = () => {
-    el.focus();
+    if (focar) el.focus();
     el.setSelectionRange(pos, pos);
     scrollCaretIntoView(el);
   };
@@ -331,6 +330,14 @@ export async function colar(inputRef, valor, setValor, showAlerta) {
   //   el.focus();
   // });
   aplicarValorAndCursor(el, setValor, newValue, startPos + texto.length);
+};
+export function mostrarNoDisplay(inputRef, setValor, texto, focar = false) {
+  const el = inputRef?.current;
+  if (!el) {
+    setValor(texto);
+    return;
+  }
+  aplicarValorAndCursor(el, setValor, texto, texto.length, focar);
 };
 export function manterCursorVisible(inputRef) {
   const reajustar = () => {
