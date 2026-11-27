@@ -11,7 +11,7 @@ export const calcular = (
   if (!el) return;
   const valorInput = valor.trim();
   if (!valorInput) {
-    showAlerta("warning", "Digite uma expressão para calcular");
+    showAlerta("warning", "Nada para calcular");
     el.focus();
     return;
   }
@@ -22,10 +22,10 @@ export const calcular = (
       { conta: `${valorInput} = ${resultado}` },
       ...prev
     ]);
-    showAlerta("success", "Cálculo salvo!");
+    showAlerta("success", "Cálculo salvo");
     el.focus();
   } catch {
-    showAlerta("error", "Cálculo inválido!");
+    showAlerta("error", "Cálculo inválido");
     el.focus();
   }
 };
@@ -39,7 +39,7 @@ export const salvar = (
   if (!el) return;
   const valorInput = valor.trim();
   if (!valorInput) {
-    showAlerta("warning", "Digite algo para salvar");
+    showAlerta("warning", "Nada para salvar");
     el.focus();
     return;
   }
@@ -47,14 +47,14 @@ export const salvar = (
     { conta: valorInput },
     ...prev
   ]);
-  showAlerta("success", "Salvo com sucesso!");
+  showAlerta("success", "Salvo com sucesso");
   el.focus();
 };
 export const excluir = (index, setHistorico, showAlerta) => {
   setHistorico(prev =>
     prev.filter((_, i) => i !== index)
   );
-  showAlerta("info", "Excluído!");
+  showAlerta("info", "Excluído");
 };
 export function separarConta(texto){
   const i = texto.lastIndexOf(SEPARADOR);

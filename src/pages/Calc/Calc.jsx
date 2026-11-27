@@ -62,6 +62,12 @@ export default function Calc(){
         el?.focus();
     };
     useEffect(() => manterCursorVisible(inputRef), [inputRef]);
+    const ativarComTeclado = (e, acao) => {
+        if (e.key !== "Enter" && e.key !== " ") return;
+        e.preventDefault();
+        e.stopPropagation();
+        acao();
+    };
     return (
         <section>
             <div className="grid grid-cols-1 gap-x-5">
@@ -79,7 +85,7 @@ export default function Calc(){
             </div>
             <div>
                 <input ref={inputRef} value={valor} onChange={e => setValor(e.target.value)}
-                  id="calcInput" name="inputCalc" inputMode="none" placeholder="Digite a expressão matemática"
+                  id="calcInput" name="inputCalc" inputMode="none" placeholder="Digite uma expressão matemática"
                   className="tab w-full h-10 text-center text-(--color-grey1) border-2 border-(--color-grey1) px-3
                     selection:bg-(--color-ambar) selection:text-(--color-dark1)" />
             </div>
@@ -168,11 +174,14 @@ export default function Calc(){
                     return (
                         <div key={`${item.conta}-${index}`} className="elemento border-b-2 border-(--color-ambar) flex flex-row w-full">
                             <div className="conta min-w-[60%] flex-1 text-(--color-yellowgreen) border-r-4 border-(--color-ambar) p-3 flex items-center overflow-hidden">
-                                <div tabIndex='0' className='resultado focus:outline-1 focus:outline-(--color-tan) px-1.5 w-full break-all min-w-0'>
-                                    <span role="button" tabIndex={0} onClick={() => mostrarNoDisplay(inputRef, setValor, expressao)}
-                                      className='resultado calculo focus:outline-1 focus:outline-(--color-tan) px-1
+                                <div tabIndex='0' className='resultado focus:outline-1 focus:outline-(--color-tan) px-1 py-1 w-full break-all min-w-0'>
+                                    <span role="button" tabIndex={0}
+                                      onClick={() => mostrarNoDisplay(inputRef, setValor, expressao)}
+                                      onKeyDown={e => ativarComTeclado(e, () => mostrarNoDisplay(inputRef, setValor, expressao))}
+                                      className='resultado calculo focus:outline-1 focus:outline-(--color-tan) px-1.5 py-1
                                                     selection:bg-(--color-ambar) selection:text-(--color-dark1)
-                                                    hover:underline'
+                                                    hover:underline
+                                                    focus:underline'
                                     >
                                         {expressao}
                                     </span>
@@ -181,9 +190,11 @@ export default function Calc(){
                                             <span className="selection:bg-(--color-ambar) selection:text-(--color-dark1)"> = </span>
                                             <span role="button" tabIndex={0}
                                               onClick={() => mostrarNoDisplay(inputRef, setValor, resultado)}
-                                              className='resultado calculo focus:outline-1 focus:outline-(--color-tan) px-1
+                                              onKeyDown={e => ativarComTeclado(e, () => mostrarNoDisplay(inputRef, setValor, resultado))}
+                                              className='resultado calculo focus:outline-1 focus:outline-(--color-tan) px-1.5 py-1
                                                     selection:bg-(--color-ambar) selection:text-(--color-dark1)
-                                                    hover:underline'
+                                                    hover:underline
+                                                    focus:underline'
                                             >
                                                 {resultado}
                                             </span>
